@@ -2,12 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:pro_23/model/post/post_data_model.dart';
 
+import '../constant/api_constant.dart';
+import '../core/util/api_client.dart';
 import '../service/storage_service.dart';
 
 class PostRepository {
-  PostRepository();
+  PostRepository(this._api);
 
   final Dio dio = Dio();
+  final ApiClient _api;
 
   final StorageService storage = Get.find<StorageService>();
 
@@ -22,40 +25,20 @@ class PostRepository {
     bool? published,
   }) async {
     try {
-      final Response<dynamic> response = await dio.get(
-        'https://flutter-api.janrent.com/api/posts',
-        queryParameters: <String, dynamic>{
+      final response = await _api.get(
+        ApiConstant.posts,
+        query: {
           'page': page,
           'size': size,
           'sortBy': 'createdAt',
           'direction': 'desc',
-
           if (title != null && title.isNotEmpty) 'title': title,
-
           if (published != null) 'published': published,
         },
       );
 
-      print('========== GET POSTS ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('================================');
+      return (PostDataModel.fromJson(response), null);
 
-      print('========== GET POSTS ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('================================');
-
-
-      final Map<String, dynamic> json =
-      Map<String, dynamic>.from(response.data as Map);
-
-      return (
-      PostDataModel.fromJson(json),
-      null,
-      );
-
-      return (PostDataModel.fromJson(json), null);
     } on DioException catch (e) {
       print('========== GET POSTS ERROR ==========');
       print('TYPE: ${e.type}');

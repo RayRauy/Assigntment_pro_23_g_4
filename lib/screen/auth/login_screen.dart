@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_23/screen/main_screen.dart';
 
+import '../../controller/auth_controller.dart';
 import '../../repository/auth_repository.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -10,8 +11,11 @@ class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final AuthRepository authRepository = AuthRepository();
+
   @override
   Widget build(BuildContext context) {
+    final AuthController controller = Get.find<AuthController>();
+
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -24,7 +28,11 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                const Icon(Icons.lock_outline, size: 80, color: Color(0xFF5FF013)),
+                const Icon(
+                  Icons.lock_outline,
+                  size: 80,
+                  color: Color(0xFF5FF013),
+                ),
 
                 const SizedBox(height: 20),
 
@@ -42,9 +50,9 @@ class LoginScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                // Email
+                // Email / Username
                 TextField(
-                  controller: emailController,
+                  controller: controller.usernameController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -59,7 +67,7 @@ class LoginScreen extends StatelessWidget {
 
                 // Password
                 TextField(
-                  controller: passwordController,
+                  controller: controller.passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -76,50 +84,20 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final username = emailController.text.trim();
-                      final password = passwordController.text.trim();
-
-                      if (username.isEmpty || password.isEmpty) {
-                        Get.snackbar(
-                          'Error',
-                          'Please enter username and password',
-                        );
-                        return;
-                      }
-
-                      Get.dialog(
-                        const Center(child: CircularProgressIndicator()),
-                        barrierDismissible: false,
-                      );
-
-                      final (token, error) = await authRepository.login(
-                        username: username,
-                        password: password,
-                      );
-
-                      if (Get.isDialogOpen ?? false) {
-                        Get.back();
-                      }
-
-                      if (token != null) {
-                        Get.snackbar('Success', 'Login successful');
-
-                        // Go to your next screen here
-                        Get.offAll(() => MainScreen());
-                      } else {
-                        Get.snackbar(
-                          'Login Failed',
-                          error ?? 'Something went wrong',
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: controller.isLoading.value
+                          ? null
+                          : controller.login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
-                    child: const Text('Login', style: TextStyle(fontSize: 16)),
                   ),
                 ),
               ],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -8,36 +7,29 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:pro_23/controller/user_controller.dart';
 import 'package:pro_23/model/user/user_data_model.dart';
 
-class UserListScreen extends StatefulWidget {
+import '../../core/value/app_color.dart';
+
+class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
 
-  @override
-  State<UserListScreen> createState() => _UserListScreenState();
-}
-
-class _UserListScreenState extends State<UserListScreen> {
-  final UserController controller = Get.put(UserController());
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller.loadFirstPage();
-  }
+  // @override
+  // State<UserListScreen> createState() => _UserListScreenState();
+// class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
+  final UserController controller = Get.find<UserController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List', style: TextStyle(color: Colors.black)),
+        title: const Text('User List', style: TextStyle(color: AppColor.textPrimary)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        // if (controller.isLoading.value) {
+        //   return const Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // }
 
         if (controller.errorMessage.value.isNotEmpty) {
           return Center(
@@ -221,11 +213,11 @@ class _UserListScreenState extends State<UserListScreen> {
 
                             onSelected: (value) {
                               if (value == 'edit') {
-                                // TODO: edit user
+                                controller.editUser(user);
                               }
 
                               if (value == 'delete') {
-                                // TODO: delete user
+                                controller.confirmDeletePost(user);
                               }
                             },
 
@@ -257,7 +249,7 @@ class _UserListScreenState extends State<UserListScreen> {
       // New Post
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.toNamed('/users-list');
+          controller.startCreate();
         },
 
         icon: const Icon(Icons.add),

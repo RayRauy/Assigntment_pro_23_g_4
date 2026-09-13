@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_23/core/value/app_color.dart';
 import 'package:pro_23/model/post/post_data_model.dart';
 
 import '../../controller/post_controller.dart';
@@ -9,11 +10,11 @@ class PostListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostController controller = Get.put(PostController());
+    final PostController controller = Get.find<PostController>();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Post List', style: TextStyle(color: Colors.black)),
+        title: Text('Post List', style: TextStyle(color: AppColor.textPrimary)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
 
@@ -33,7 +34,10 @@ class PostListScreen extends StatelessWidget {
                 hintText: 'Search posts...',
                 leading: const Icon(Icons.search),
                 onChanged: (value) {
-                  controller.loadFirstPage(title: value, debounce: true);
+                  controller.loadFirstPage(
+                      title: value,
+                      debounce: true
+                  );
                 },
               ),
             ),
