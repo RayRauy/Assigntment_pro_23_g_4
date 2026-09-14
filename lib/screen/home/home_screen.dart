@@ -58,12 +58,12 @@ class HomeScreen extends StatelessWidget {
               accountName: Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  "Ly Phekleang",
+                  "Admin",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
               ),
               accountEmail: Text(
-                "PhekleangLy@gamil.com",
+                "Admin@gmail.com",
                 style: TextStyle(fontSize: 20),
               ),
               currentAccountPicture: Transform.translate(
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 28,
                   backgroundColor: Colors.white,
-                  backgroundImage: AssetImage('assets/images/image.jpg'),
+                  backgroundImage: AssetImage('assets/images/Cartoon_Style_Robot.jpg'),
                   // child: Text(
                   //   "AD",
                   //   style: TextStyle(
@@ -86,12 +86,16 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.people_alt_outlined),
               title: Text("users".tr),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed('/users-list');
+              },
             ),
             ListTile(
               leading: Icon(Icons.person_add_alt_1_outlined),
               title: Text("new_user".tr),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed('/users/form');
+              },
             ),
 
             Divider(),
