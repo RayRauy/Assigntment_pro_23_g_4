@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/post_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../core/value/app_color.dart';
 
-class PostFormScreen extends StatelessWidget {
-  const PostFormScreen({super.key});
+class UserFormScreen extends StatelessWidget {
+  const UserFormScreen({super.key});
 
   // @override
-  // State<PostFormScreen> createState() => _PostFormScreenState();
+  // State<UserFormScreen> createState() => _UserFormScreenState();
 
   @override
   Widget build(BuildContext context) {
-  final PostController controller = Get.find<PostController>();
+    final UserController controller = Get.find<UserController>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -25,29 +26,24 @@ class PostFormScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-
         title: Builder(
           builder: (context) {
-            final bool isEdit = controller.editingPost != null;
+            final bool isEdit = controller.editingUser != null;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isEdit ? 'Edit Post' : 'Create Post',
+                  isEdit ? 'Edit User' : 'Create User',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 2),
-
                 Text(
-                  isEdit
-                      ? 'Update your article'
-                      : 'Create a new article',
+                  isEdit ? 'Update user account' : 'Register a new user',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
@@ -58,7 +54,6 @@ class PostFormScreen extends StatelessWidget {
           },
         ),
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 30),
@@ -66,19 +61,17 @@ class PostFormScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // =========================
-              // COVER IMAGE
+              // PROFILE IMAGE
               // =========================
-              Text(
-                'cover_image'.tr,
-                style: const TextStyle(
+              const Text(
+                'Profile Image',
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
-
               const SizedBox(height: 10),
-
               GestureDetector(
                 onTap: controller.pickImage,
                 child: Obx(
@@ -86,9 +79,9 @@ class PostFormScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 190,
                     decoration: BoxDecoration(
-                      color: Color(0xF0CCF8B5),
+                      color: const Color(0xF0CCF8B5),
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: Color(0xffCBD5E1)),
+                      border: Border.all(color: const Color(0xffCBD5E1)),
                       image: controller.selectedImage.value != null
                           ? DecorationImage(
                               image: FileImage(controller.selectedImage.value!),
@@ -104,27 +97,27 @@ class PostFormScreen extends StatelessWidget {
                                 width: 64,
                                 height: 64,
                                 decoration: BoxDecoration(
-                                  color: Color(0xffECFDF5),
+                                  color: const Color(0xffECFDF5),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: Icon(
-                                  Icons.add_photo_alternate_outlined,
+                                child: const Icon(
+                                  Icons.add_a_photo_outlined,
                                   size: 32,
                                   color: Color(0xff44b626),
                                 ),
                               ),
-                              SizedBox(height: 14),
-                              Text(
-                                'add_cover_image'.tr,
+                              const SizedBox(height: 14),
+                              const Text(
+                                'Add Profile Image',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xff334155),
                                 ),
                               ),
-                              SizedBox(height: 5),
-                              Text(
-                                'tap_to_upload_image'.tr,
+                              const SizedBox(height: 5),
+                              const Text(
+                                'Tap to upload image',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Color(0xff94A3B8),
@@ -154,30 +147,28 @@ class PostFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 26),
+              const SizedBox(height: 26),
 
               // =========================
-              // TITLE
+              // USERNAME
               // =========================
-              Text(
-                'title'.tr,
-                style: const TextStyle(
+              const Text(
+                'Username',
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
-
               const SizedBox(height: 10),
-
               TextField(
-                controller: controller.titleController,
+                controller: controller.usernameController,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  hintText: 'enter_post_title'.tr,
+                  hintText: 'Enter username',
                   hintStyle: const TextStyle(color: Color(0xff94A3B8)),
                   prefixIcon: const Icon(
-                    Icons.title_rounded,
+                    Icons.person_outline,
                     color: Color(0xff64748B),
                   ),
                   filled: true,
@@ -203,34 +194,36 @@ class PostFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 26),
 
               // =========================
-              // CONTENT
+              // NICKNAME
               // =========================
-              Text(
-                'content'.tr,
-                style: const TextStyle(
+              const Text(
+                'Nickname',
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
-
               const SizedBox(height: 10),
-
               TextField(
-                controller: controller.contentController,
-                maxLines: 5,
-                textInputAction: TextInputAction.newline,
+                controller: controller.nickNameController,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  hintText: 'write_your_post_content'.tr,
+                  hintText: 'Enter nickname',
                   hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  alignLabelWithHint: true,
+                  prefixIcon: const Icon(
+                    Icons.badge_outlined,
+                    color: Color(0xff64748B),
+                  ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.all(16),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 17,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: const BorderSide(color: Color(0xffE2E8F0)),
@@ -248,11 +241,58 @@ class PostFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 26),
 
               // =========================
-              // PUBLISH
+              // PASSWORD
+              // =========================
+              const Text(
+                'Password',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff0F172A),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: controller.passwordController,
+                obscureText: true,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  hintText: 'Enter password',
+                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                  prefixIcon: const Icon(
+                    Icons.lock_outline,
+                    color: Color(0xff64748B),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 17,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(
+                      color: Colors.green,
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 26),
+
+              // =========================
+              // ENABLED STATUS
               // =========================
               Obx(
                 () => Container(
@@ -272,31 +312,27 @@ class PostFormScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
-                          Icons.public,
+                          Icons.verified_user_outlined,
                           color: Colors.green,
                         ),
                       ),
-
                       const SizedBox(width: 15),
-
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'publish_post'.tr,
-                              style: const TextStyle(
+                            const Text(
+                              'Enable User',
+                              style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff0F172A),
                               ),
                             ),
-
                             const SizedBox(height: 4),
-
-                            Text(
-                              'make_this_post_visible_to_everyone'.tr,
-                              style: const TextStyle(
+                            const Text(
+                              'Allow this user to access the system',
+                              style: TextStyle(
                                 fontSize: 15,
                                 color: Color(0xff64748B),
                               ),
@@ -304,50 +340,44 @@ class PostFormScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       Switch(
-                        value: controller.published.value,
+                        value: controller.enabled.value,
                         activeThumbColor: Colors.white,
                         activeTrackColor: const Color(0xFF4DC62E),
                         onChanged: (value) {
-                          controller.published.value = value;
+                          controller.enabled.value = value;
                         },
                       ),
                     ],
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
 
               // =========================
-              // CREATE BUTTON
+              // ACTION BUTTON
               // =========================
               SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: Obx(
                   () => ElevatedButton(
-                    onPressed:
-                        controller.isCreating.value ||
+                    onPressed: controller.isCreating.value ||
                             controller.isUpdating.value
                         ? null
-                        : controller.editingPost == null
-                        ? controller.createPost
-                        : controller.updatePost,
-
+                        : controller.editingUser == null
+                            ? controller.createUser
+                            : controller.updateUser,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.createBtt,
-                      disabledBackgroundColor: Color(0xff94A3B8),
+                      disabledBackgroundColor: const Color(0xff94A3B8),
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-
-                    child:
-                        controller.isCreating.value ||
+                    child: controller.isCreating.value ||
                             controller.isUpdating.value
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -360,9 +390,7 @@ class PostFormScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-
                               const SizedBox(width: 12),
-
                               Text(
                                 controller.isCreating.value
                                     ? 'Creating...'
@@ -378,17 +406,15 @@ class PostFormScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                controller.editingPost == null
-                                    ? Icons.check_circle_outline
+                                controller.editingUser == null
+                                    ? Icons.person_add_outlined
                                     : Icons.save_outlined,
                               ),
-
                               const SizedBox(width: 8),
-
                               Text(
-                                controller.editingPost == null
-                                    ? 'Create Post'
-                                    : 'Update Post',
+                                controller.editingUser == null
+                                    ? 'Create User'
+                                    : 'Update User',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

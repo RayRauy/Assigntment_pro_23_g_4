@@ -29,10 +29,10 @@ class AppColor {
   static const Color surface = Color(0xFFFFFFFF);
   static const Color border = Color(0xFFE2E8F0);
 
-  static const Color textPrimary = Color(0xFF0F172A);
+  static const Color textPrimary = Color(0xFF2E004F);
   static const Color textSecondary = Color(0xFF64748B);
   static const Color textDisabled = Color(0xFF94A3B8);
 
   static const Color text = Color(0xFF131313);
-  static const Color createBtt = Colors.green;
+  static const Color createBtt = Color(0xFF196305);
 }

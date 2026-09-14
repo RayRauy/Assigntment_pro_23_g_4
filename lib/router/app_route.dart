@@ -12,5 +12,6 @@ class AppRoute {
   static const String postList = '/posts-list';
   static const String postForm = '/posts/form';
   static const String userList = '/users-list';
+  static const String userForm = '/users/form';
 
 }

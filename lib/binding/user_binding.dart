@@ -1,11 +1,21 @@
 import 'package:get/get.dart';
 import 'package:pro_23/controller/user_controller.dart';
-import '../controller/post_controller.dart';
+import '../core/util/api_client.dart';
+import '../repository/user_repository.dart';
+import '../service/storage_service.dart';
 
 
 class UserBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<UserController>(() => UserController());
+    Get.lazyPut<StorageService>(() => StorageService());
+
+    Get.lazyPut<ApiClient>(() => ApiClient(Get.find<StorageService>()));
+
+    Get.lazyPut<UserRepository>(() => UserRepository(Get.find<ApiClient>()));
+
+    Get.lazyPut<UserController>(
+          () => UserController(Get.find<UserRepository>()),
+    );
   }
 }

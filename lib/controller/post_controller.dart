@@ -9,7 +9,8 @@ import '../model/post/post_data_model.dart';
 import '../repository/post_repository.dart';
 
 class PostController extends GetxController {
-  final PostRepository _postRepo = Get.put(PostRepository());
+  PostController(this._postRepo);
+  final PostRepository _postRepo;
 
   // Form controllers
   final TextEditingController titleController = TextEditingController();
@@ -72,10 +73,7 @@ class PostController extends GetxController {
   // Load First Page
   // =========================
 
-  Future<void> loadFirstPage({
-    String? title,
-    bool debounce = false,
-  }) async {
+  Future<void> loadFirstPage({String? title, bool debounce = false,}) async {
     searchTerm.value = title ?? searchTerm.value;
 
     _searchTimer?.cancel();

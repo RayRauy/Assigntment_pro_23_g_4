@@ -1,27 +1,46 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pro_23/repository/user_repository.dart';
 
 import '../model/user/user_data_model.dart';
 
 
 class UserController extends GetxController{
-  final UserRepository _userRepo = Get.put(UserRepository());
+  UserController(this._userRepo);
+  final UserRepository _userRepo;
   final users = <userData>[].obs;
   userData? editingUser;
+
+  // Form Controller
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController nickNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   // =========================
   // State
   // =========================
-
+  final RxString existingImageUrl = ''.obs;
+  final isPickingImage = false.obs;
+  final selectedImage = Rxn<File>();
+  final ImagePicker _picker = ImagePicker();
+  final isCreating = false.obs;
+  final isDeleting = false.obs;
+  final isUpdating = false.obs;
   final isLoading = false.obs;
   final isLoadingMore = false.obs;
   final errorMessage = ''.obs;
   final searchTerm = ''.obs;
+  final enabled = true.obs;
+
 
 // =========================
   // Pagination
@@ -64,12 +83,7 @@ class UserController extends GetxController{
   // Load First Page
   // =========================
 
-  Future<void> loadFirstPage({
-    String? username,
-    String? nickName,
-    bool? enabled,
-    bool debounce = false,
-  }) async {
+  Future<void> loadFirstPage({String? username, bool debounce = false,}) async {
     searchTerm.value = username ?? searchTerm.value;
 
     _searchTimer?.cancel();
@@ -80,8 +94,6 @@ class UserController extends GetxController{
             () {
           loadFirstPage(
             username: username,
-            nickName: nickName,
-            enabled: enabled,
             debounce: false,
           );
         },
@@ -106,9 +118,7 @@ class UserController extends GetxController{
       await _userRepo.getUserPage(
         page: 0,
         size: size,
-        username: username,
-        nickName: nickName,
-        published: enabled,
+        username: searchTerm.value,
       );
 
       if (error != null) {
@@ -193,6 +203,264 @@ class UserController extends GetxController{
     );
   }
 
+  Future<void> createUser() async {
+    if (isCreating.value) return;
+
+    final username = usernameController.text.trim();
+    final nickName = nickNameController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (username.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Username is required',
+      );
+      return;
+    }
+
+    if (password.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Password is required',
+      );
+      return;
+    }
+
+    try {
+      isCreating.value = true;
+
+      // =========================
+      // 1. Create Post
+      // =========================
+
+      final (userData? user, String? error) =
+      await _userRepo.createUser(
+        username: username,
+        nickName: nickName,
+        password: password,
+      );
+
+      if (error != null) {
+        Get.snackbar(
+          'Error',
+          error,
+        );
+        return;
+      }
+
+      if (user == null) {
+        Get.snackbar(
+          'Error',
+          'Failed to create user',
+        );
+        return;
+      }
+
+      // =========================
+      // 2. Upload Image
+      // =========================
+
+      // 2. Upload Image if exists
+      if (selectedImage.value != null && user.id != null) {
+        final (bool success, String? uploadError) = await _userRepo.uploadUserImage(
+          userId: user.id!,
+          filePath: selectedImage.value!.path,
+        );
+
+        if (!success) {
+          Get.snackbar(
+            'Partial Success',
+            'User created, but image upload failed: ${uploadError ?? "Unknown error"}',
+            duration: const Duration(seconds: 5),
+          );
+        }
+      }
+
+      // =========================
+      // 2.5 Update Enabled Status via specific endpoint
+      // =========================
+      if (user.id != null) {
+        final (bool toggleSuccess, String? toggleError) = await _userRepo.userEnabled(
+          userId: user.id!,
+          enabled: enabled.value,
+        );
+
+        if (toggleSuccess) {
+          user.enabled = enabled.value;
+        } else {
+          Get.snackbar(
+            'Partial Success',
+            'User created, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
+            duration: const Duration(seconds: 5),
+          );
+        }
+      }
+      
+      
+
+
+      // =========================
+      // 3. Add to local list
+      // =========================
+
+      users.insert(0, user);
+
+      // =========================
+      // 4. Clear form
+      // =========================
+
+      usernameController.clear();
+      nickNameController.clear();
+      passwordController.clear();
+      enabled.value = true;
+
+      selectedImage.value = null;
+      editingUser = null;
+
+      Get.back();
+
+      Get.snackbar(
+        'Success',
+        'User created successfully',
+      );
+    } finally {
+      isCreating.value = false;
+    }
+  }
+
+  Future<void> pickImage() async {
+    if (isPickingImage.value) return;
+
+    try {
+      isPickingImage.value = true;
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
+
+      if (image != null) {
+        selectedImage.value = File(image.path);
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+      if (e is PlatformException && e.code == 'already_active') {
+        // Ignore this error as it just means the picker is already open
+        return;
+      }
+      Get.snackbar('Error', 'Failed to pick image: $e');
+    } finally {
+      isPickingImage.value = false;
+    }
+  }
+
+  Future<void> updateUser() async{
+
+  }
+
+  Future<void> deletePost(userData user) async {
+    if (isDeleting.value) return;
+
+    final int? id = user.id;
+
+    if (id == null) {
+      Get.snackbar(
+        'Error',
+        'Post ID not found',
+      );
+      return;
+    }
+
+    try {
+      isDeleting.value = true;
+
+      final (bool success, String? error) =
+      await _userRepo.deleteUser(
+        id: id,
+      );
+
+      if (error != null) {
+        Get.snackbar(
+          'Error',
+          error,
+        );
+        return;
+      }
+
+      if (!success) {
+        Get.snackbar(
+          'Error',
+          'Failed to delete post',
+        );
+        return;
+      }
+
+      // Remove post from local list
+      users.removeWhere(
+            (item) => item.id == id,
+      );
+
+      Get.snackbar(
+        'Success',
+        'Post deleted successfully',
+      );
+    } finally {
+      isDeleting.value = false;
+    }
+  }
+
+  void confirmDeletePost(userData user) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Delete Post'),
+        content: Text(
+          'Are you sure you want to delete "${user.username ?? ''}"?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              Get.back();
+              deletePost(user);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void editUser(userData user) {
+    editingUser = user;
+
+    usernameController.text = user.username ?? '';
+    nickNameController.text = user.nickName ?? '';
+    enabled.value = user.enabled ?? false;
+
+    Get.toNamed('/users/form');
+  }
+
+  void startCreate() {
+    editingUser = null;
+
+    usernameController.clear();
+    nickNameController.clear();
+    passwordController.clear();
+    enabled.value = true;
+
+    selectedImage.value = null;
+    existingImageUrl.value = '';
+    Get.toNamed('/users/form');
+  }
   // =========================
   // Dispose
   // =========================

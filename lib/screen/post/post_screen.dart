@@ -7,7 +7,7 @@ class PostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostController controller = Get.put(PostController());
+    final PostController controller = Get.find<PostController>();
     return Scaffold(
       appBar: AppBar(
         title: Text('Post Screen', style: TextStyle(color: Colors.black26)),

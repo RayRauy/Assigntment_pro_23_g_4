@@ -9,6 +9,8 @@ import 'package:pro_23/screen/post/post_form_screen.dart';
 import 'package:pro_23/screen/user/user_list_screen.dart';
 
 import '../binding/main_binding.dart';
+import '../screen/post/post_list_screen.dart';
+import '../screen/user/user_form_screen.dart';
 
 class AppPage {
   const AppPage._();
@@ -29,7 +31,7 @@ class AppPage {
     ),
     GetPage<void>(
       name: AppRoute.postList,
-      page: PostFormScreen.new,
+      page: PostListScreen.new,
       binding: PostBinding(),
     ),
     GetPage<void>(
@@ -42,6 +44,10 @@ class AppPage {
       page: UserListScreen.new,
       binding: UserBinding(),
     ),
-
+    GetPage<void>(
+      name: AppRoute.userForm,
+      page: UserFormScreen.new,
+      binding: UserBinding(),
+    ),
   ];
 }
