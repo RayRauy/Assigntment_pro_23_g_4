@@ -19,10 +19,10 @@ class PostFormScreen extends StatelessWidget {
         centerTitle: false,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: const Icon(
+          icon:  Icon(
             Icons.arrow_back_ios_new,
             size: 20,
-            color: Colors.black,
+            color: AppColor.textPrimary,
           ),
         ),
 
@@ -34,22 +34,22 @@ class PostFormScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isEdit ? 'Edit Post' : 'Create Post',
-                  style: const TextStyle(
-                    color: Colors.black,
+                  isEdit ? 'edit_post'.tr : 'create_post'.tr,
+                  style:  TextStyle(
+                    color: AppColor.textPrimary,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 2),
+                 SizedBox(height: 2),
 
                 Text(
                   isEdit
-                      ? 'Update your article'
-                      : 'Create a new article',
-                  style: const TextStyle(
-                    color: Colors.black,
+                      ? 'update_article'.tr
+                      : 'create_a_new_article'.tr,
+                  style:  TextStyle(
+                    color: AppColor.textSecondary,
                     fontSize: 14,
                   ),
                 ),
@@ -61,7 +61,7 @@ class PostFormScreen extends StatelessWidget {
 
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 30),
+          padding:  EdgeInsets.fromLTRB(16, 20, 16, 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,14 +70,14 @@ class PostFormScreen extends StatelessWidget {
               // =========================
               Text(
                 'cover_image'.tr,
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
 
-              const SizedBox(height: 10),
+               SizedBox(height: 10),
 
               GestureDetector(
                 onTap: controller.pickImage,
@@ -91,12 +91,20 @@ class PostFormScreen extends StatelessWidget {
                       border: Border.all(color: Color(0xffCBD5E1)),
                       image: controller.selectedImage.value != null
                           ? DecorationImage(
-                              image: FileImage(controller.selectedImage.value!),
-                              fit: BoxFit.cover,
-                            )
+                        image: FileImage(controller.selectedImage.value!),
+                        fit: BoxFit.cover,
+                      )
+                          : controller.existingImageUrl.value.isNotEmpty
+                          ? DecorationImage(
+                        image: NetworkImage(
+                          controller.existingImageUrl.value,
+                        ),
+                        fit: BoxFit.cover,
+                      )
                           : null,
                     ),
-                    child: controller.selectedImage.value == null
+                    child: controller.selectedImage.value == null &&
+                        controller.existingImageUrl.value.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -140,7 +148,7 @@ class PostFormScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   backgroundColor: Colors.black54,
                                   child: IconButton(
-                                    icon: const Icon(
+                                    icon:  Icon(
                                       Icons.close,
                                       color: Colors.white,
                                     ),
@@ -161,43 +169,43 @@ class PostFormScreen extends StatelessWidget {
               // =========================
               Text(
                 'title'.tr,
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
 
-              const SizedBox(height: 10),
+               SizedBox(height: 10),
               Obx(
                 () => TextField(
                   controller: controller.titleController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'enter_post_title'.tr,
-                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    hintStyle:  TextStyle(color: Color(0xff94A3B8)),
                     errorText: controller.titleError.value,
-                    prefixIcon: const Icon(
+                    prefixIcon:  Icon(
                       Icons.title_rounded,
                       color: Color(0xff64748B),
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding:  EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 17,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide:  BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide:  BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
+                      borderSide:  BorderSide(
                         color: Colors.green,
                         width: 1.5,
                       ),
@@ -206,21 +214,21 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 26),
+               SizedBox(height: 26),
 
               // =========================
               // CONTENT
               // =========================
               Text(
                 'content'.tr,
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff0F172A),
                 ),
               ),
 
-              const SizedBox(height: 10),
+               SizedBox(height: 10),
               Obx(
                 () => TextField(
                   controller: controller.contentController,
@@ -228,23 +236,23 @@ class PostFormScreen extends StatelessWidget {
                   textInputAction: TextInputAction.newline,
                   decoration: InputDecoration(
                     hintText: 'write_your_post_content'.tr,
-                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    hintStyle:  TextStyle(color: Color(0xff94A3B8)),
                     errorText: controller.contentError.value,
                     alignLabelWithHint: true,
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.all(16),
+                    contentPadding:  EdgeInsets.all(16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide:  BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide:  BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
+                      borderSide:  BorderSide(
                         color: Colors.green,
                         width: 1.5,
                       ),
@@ -253,18 +261,18 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 26),
+               SizedBox(height: 26),
 
               // =========================
               // PUBLISH
               // =========================
               Obx(
                 () => Container(
-                  padding: const EdgeInsets.all(16),
+                  padding:  EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xffE2E8F0)),
+                    border: Border.all(color:  Color(0xffE2E8F0)),
                   ),
                   child: Row(
                     children: [
@@ -272,16 +280,16 @@ class PostFormScreen extends StatelessWidget {
                         width: 46,
                         height: 46,
                         decoration: BoxDecoration(
-                          color: const Color(0xffECFDF5),
+                          color:  Color(0xffECFDF5),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(
+                        child:  Icon(
                           Icons.public,
                           color: Colors.green,
                         ),
                       ),
 
-                      const SizedBox(width: 15),
+                       SizedBox(width: 15),
 
                       Expanded(
                         child: Column(
@@ -289,18 +297,18 @@ class PostFormScreen extends StatelessWidget {
                           children: [
                             Text(
                               'publish_post'.tr,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff0F172A),
                               ),
                             ),
 
-                            const SizedBox(height: 4),
+                             SizedBox(height: 4),
 
                             Text(
                               'make_this_post_visible_to_everyone'.tr,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 15,
                                 color: Color(0xff64748B),
                               ),
@@ -312,7 +320,7 @@ class PostFormScreen extends StatelessWidget {
                       Switch(
                         value: controller.published.value,
                         activeThumbColor: Colors.white,
-                        activeTrackColor: const Color(0xFF4DC62E),
+                        activeTrackColor:  Color(0xFF4DC62E),
                         onChanged: (value) {
                           controller.published.value = value;
                         },
@@ -322,7 +330,7 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 30),
+               SizedBox(height: 30),
 
               // =========================
               // CREATE BUTTON
@@ -356,7 +364,7 @@ class PostFormScreen extends StatelessWidget {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const SizedBox(
+                               SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
@@ -365,13 +373,13 @@ class PostFormScreen extends StatelessWidget {
                                 ),
                               ),
 
-                              const SizedBox(width: 12),
+                               SizedBox(width: 12),
 
                               Text(
                                 controller.isCreating.value
                                     ? 'Creating...'
                                     : 'Updating...',
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -387,13 +395,13 @@ class PostFormScreen extends StatelessWidget {
                                     : Icons.save_outlined,
                               ),
 
-                              const SizedBox(width: 8),
+                               SizedBox(width: 8),
 
                               Text(
                                 controller.editingPost == null
                                     ? 'Create Post'
                                     : 'Update Post',
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),

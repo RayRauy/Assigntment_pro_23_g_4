@@ -19,10 +19,10 @@ class UserRepository {
       final response = await _api.get(
         ApiConstant.users,
         query: {
-          'sortBy': 'createdAt',
-          'direction': 'desc',
           'page': page,
           'size': size,
+          'sortBy': 'createdAt',
+          'direction': 'desc',
           if (username != null && username.isNotEmpty) 'username': username,
           if (nickName != null && nickName.isNotEmpty) 'nickName': nickName,
           if (enabled != null) 'enabled': enabled,
@@ -55,13 +55,16 @@ class UserRepository {
   Future<(userData?, String?)> createUser({required String username, String? nickName, required String password,}) async {
     try {
       final response = await _api.post(
-        ApiConstant.register,
+        ApiConstant.users,
         body: {
           'username': username,
           'nickName': nickName,
           'password': password,
         },
       );
+      print('========== CREATE USER RESPONSE ==========');
+      print('RESPONSE: $response');
+      print('==========================================');
       // 2. ApiClient only returns here if status code is 2xx.
       // Extract the 'data' map from the response JSON body.
       final dynamic dataJson = response['data'];

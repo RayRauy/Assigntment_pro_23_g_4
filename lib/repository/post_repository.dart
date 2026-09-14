@@ -18,12 +18,7 @@ class PostRepository {
   // Get Posts
   // =========================
 
-  Future<(PostDataModel?, String?)> getPageTest({
-    int page = 0,
-    int size = 10,
-    String? title,
-    bool? published,
-  }) async {
+  Future<(PostDataModel?, String?)> getPageTest({int page = 0, int size = 10, String? title, bool? published,}) async {
     try {
       final response = await _api.get(
         ApiConstant.posts,
@@ -65,11 +60,7 @@ class PostRepository {
   // Create Post
   // =========================
 
-  Future<(Data?, String?)> createPost({
-    required String title,
-    required String content,
-    required bool published,
-  }) async {
+  Future<(Data?, String?)> createPost({required String title, required String content, required bool published,}) async {
     try {
       // =========================
       // Get Token

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/post_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../core/value/app_color.dart';
 
@@ -20,7 +19,7 @@ class UserFormScreen extends StatelessWidget {
         centerTitle: false,
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 20,
             color: AppColor.textPrimary,
@@ -34,17 +33,17 @@ class UserFormScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isEdit ? 'Edit User' : 'Create User',
-                  style: const TextStyle(
+                  isEdit ? 'edit_user'.tr : 'create_user'.tr,
+                  style: TextStyle(
                     color: AppColor.textPrimary,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
-                  isEdit ? 'Update user account' : 'Register a new user',
-                  style: const TextStyle(
+                  isEdit ? 'update_user_account'.tr : 'register_user'.tr,
+                  style: TextStyle(
                     color: AppColor.textSecondary,
                     fontSize: 14,
                   ),
@@ -63,8 +62,8 @@ class UserFormScreen extends StatelessWidget {
               // =========================
               // PROFILE IMAGE
               // =========================
-              const Text(
-                'Profile Image',
+              Text(
+                'profile_image'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -105,27 +104,27 @@ class UserFormScreen extends StatelessWidget {
                                 width: 64,
                                 height: 64,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xffECFDF5),
+                                  color: Color(0xffECFDF5),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.add_a_photo_outlined,
                                   size: 32,
                                   color: Color(0xff44b626),
                                 ),
                               ),
-                              const SizedBox(height: 14),
-                              const Text(
-                                'Add Profile Image',
+                              SizedBox(height: 14),
+                              Text(
+                                'add_profile_image'.tr,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: AppColor.textPrimary,
                                 ),
                               ),
-                              const SizedBox(height: 5),
-                              const Text(
-                                'Tap to upload image',
+                              SizedBox(height: 5),
+                              Text(
+                                'tap_to_upload_an_image'.tr,
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppColor.textSecondary,
@@ -141,7 +140,7 @@ class UserFormScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   backgroundColor: Colors.black54,
                                   child: IconButton(
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.close,
                                       color: Colors.white,
                                     ),
@@ -155,26 +154,26 @@ class UserFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // USERNAME
               // =========================
-              const Text(
-                'Username',
+              Text(
+                'username'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColor.textPrimary,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Obx(
                 () => TextField(
                   controller: controller.usernameController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    hintText: 'Enter username',
+                    hintText: 'enter_username'.tr,
                     hintStyle: TextStyle(color: Color(0xff94A3B8)),
                     errorText: controller.usernameError.value,
                     prefixIcon: Icon(
@@ -183,21 +182,21 @@ class UserFormScreen extends StatelessWidget {
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 17,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide: BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide: BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Colors.green,
                         width: 1.5,
                       ),
@@ -205,97 +204,97 @@ class UserFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // NICKNAME
               // =========================
-              const Text(
-                'Nickname',
+              Text(
+                'nickname'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColor.textPrimary,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               TextField(
                 controller: controller.nickNameController,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  hintText: 'Enter nickname',
-                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  prefixIcon: const Icon(
+                  hintText: 'enter_nickname'.tr,
+                  hintStyle: TextStyle(color: Color(0xff94A3B8)),
+                  prefixIcon: Icon(
                     Icons.badge_outlined,
                     color: Color(0xff64748B),
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 17,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    borderSide: BorderSide(color: Color(0xffE2E8F0)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    borderSide: BorderSide(color: Color(0xffE2E8F0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
+                    borderSide: BorderSide(
                       color: Colors.green,
                       width: 1.5,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // PASSWORD
               // =========================
-              const Text(
-                'Password',
+              Text(
+                'password'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColor.textPrimary,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Obx(
                 () => TextField(
                   controller: controller.passwordController,
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    hintText: 'Enter password',
-                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    hintText: 'enter_password'.tr,
+                    hintStyle: TextStyle(color: Color(0xff94A3B8)),
                     errorText: controller.passwordError.value,
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.lock_outline,
                       color: Color(0xff64748B),
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 17,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide: BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                      borderSide: BorderSide(color: Color(0xffE2E8F0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Colors.green,
                         width: 1.5,
                       ),
@@ -303,18 +302,18 @@ class UserFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // ENABLED STATUS
               // =========================
               Obx(
                 () => Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xffE2E8F0)),
+                    border: Border.all(color: Color(0xffE2E8F0)),
                   ),
                   child: Row(
                     children: [
@@ -322,30 +321,30 @@ class UserFormScreen extends StatelessWidget {
                         width: 46,
                         height: 46,
                         decoration: BoxDecoration(
-                          color: const Color(0xffECFDF5),
+                          color: Color(0xffECFDF5),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.verified_user_outlined,
                           color: Colors.green,
                         ),
                       ),
-                      const SizedBox(width: 15),
+                      SizedBox(width: 15),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Enable User',
+                            Text(
+                              'enable_user'.tr,
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff0F172A),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Allow this user to access the system',
+                            SizedBox(height: 4),
+                            Text(
+                              'allow_user_access_to_system'.tr,
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Color(0xff64748B),
@@ -357,7 +356,7 @@ class UserFormScreen extends StatelessWidget {
                       Switch(
                         value: controller.enabled.value,
                         activeThumbColor: Colors.white,
-                        activeTrackColor: const Color(0xFF4DC62E),
+                        activeTrackColor: Color(0xFF4DC62E),
                         onChanged: (value) {
                           controller.enabled.value = value;
                         },
@@ -366,7 +365,7 @@ class UserFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // =========================
               // ACTION BUTTON
@@ -384,7 +383,7 @@ class UserFormScreen extends StatelessWidget {
                             : controller.updateUser,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.createBtt,
-                      disabledBackgroundColor: const Color(0xff94A3B8),
+                      disabledBackgroundColor: Color(0xff94A3B8),
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -396,7 +395,7 @@ class UserFormScreen extends StatelessWidget {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const SizedBox(
+                              SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
@@ -404,12 +403,12 @@ class UserFormScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: 12),
                               Text(
                                 controller.isCreating.value
-                                    ? 'Creating...'
-                                    : 'Updating...',
-                                style: const TextStyle(
+                                    ? 'creating'.tr
+                                    : 'updating'.tr,
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -424,12 +423,12 @@ class UserFormScreen extends StatelessWidget {
                                     ? Icons.person_add_outlined
                                     : Icons.save_outlined,
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8),
                               Text(
                                 controller.editingUser == null
-                                    ? 'Create User'
-                                    : 'Update User',
-                                style: const TextStyle(
+                                    ? 'create_user'.tr
+                                    : 'update_user'.tr,
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),

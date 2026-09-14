@@ -18,19 +18,18 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         appBarTheme: AppBarTheme(
           backgroundColor: AppColor.primary,
           foregroundColor: Colors.white,
           elevation: 0,
         ),
+        fontFamily: 'NotoSansKhmer',
       ),
 
+      locale: Locale('en', 'US'),
+      fallbackLocale: Locale('en', 'US'),
       translations: AppTranslation(),
 
-      locale: const Locale('en', 'US'),
-
-      fallbackLocale: const Locale('en', 'US'),
       initialBinding: InitialBinding(),
       getPages: AppPage.pages,
       initialRoute: '/',

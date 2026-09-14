@@ -213,7 +213,7 @@ class PostController extends GetxController {
     titleController.text = post.title ?? '';
     contentController.text = post.content ?? '';
     published.value = post.published ?? false;
-
+    existingImageUrl.value = post.imageUrl ?? '';
     Get.toNamed('/posts/form');
   }
 
