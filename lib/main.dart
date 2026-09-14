@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_23/binding/initial_binding.dart';
 import 'package:pro_23/router/app_page.dart';
-import 'package:pro_23/translation/app_translation.dart';
 
+import 'core/translation/app_translation.dart';
 import 'core/value/app_color.dart';
 
 void main() {
