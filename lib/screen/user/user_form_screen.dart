@@ -23,7 +23,7 @@ class UserFormScreen extends StatelessWidget {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             size: 20,
-            color: Colors.black,
+            color: AppColor.textPrimary,
           ),
         ),
         title: Builder(
@@ -36,7 +36,7 @@ class UserFormScreen extends StatelessWidget {
                 Text(
                   isEdit ? 'Edit User' : 'Create User',
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: AppColor.textPrimary,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -45,7 +45,7 @@ class UserFormScreen extends StatelessWidget {
                 Text(
                   isEdit ? 'Update user account' : 'Register a new user',
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: AppColor.textSecondary,
                     fontSize: 14,
                   ),
                 ),
@@ -68,7 +68,7 @@ class UserFormScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff0F172A),
+                  color: AppColor.textPrimary,
                 ),
               ),
               const SizedBox(height: 10),
@@ -79,17 +79,25 @@ class UserFormScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 190,
                     decoration: BoxDecoration(
-                      color: const Color(0xF0CCF8B5),
+                      color: Color(0xF0CCF8B5),
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: const Color(0xffCBD5E1)),
+                      border: Border.all(color: Color(0xffCBD5E1)),
                       image: controller.selectedImage.value != null
                           ? DecorationImage(
-                              image: FileImage(controller.selectedImage.value!),
-                              fit: BoxFit.cover,
-                            )
+                        image: FileImage(controller.selectedImage.value!),
+                        fit: BoxFit.cover,
+                      )
+                          : controller.existingImageUrl.value.isNotEmpty
+                          ? DecorationImage(
+                        image: NetworkImage(
+                          controller.existingImageUrl.value,
+                        ),
+                        fit: BoxFit.cover,
+                      )
                           : null,
                     ),
-                    child: controller.selectedImage.value == null
+                    child: controller.selectedImage.value == null &&
+                        controller.existingImageUrl.value.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -112,7 +120,7 @@ class UserFormScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xff334155),
+                                  color: AppColor.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: 5),
@@ -120,7 +128,7 @@ class UserFormScreen extends StatelessWidget {
                                 'Tap to upload image',
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Color(0xff94A3B8),
+                                  color: AppColor.textSecondary,
                                 ),
                               ),
                             ],
@@ -157,39 +165,42 @@ class UserFormScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff0F172A),
+                  color: AppColor.textPrimary,
                 ),
               ),
               const SizedBox(height: 10),
-              TextField(
-                controller: controller.usernameController,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'Enter username',
-                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  prefixIcon: const Icon(
-                    Icons.person_outline,
-                    color: Color(0xff64748B),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 17,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Colors.green,
-                      width: 1.5,
+              Obx(
+                () => TextField(
+                  controller: controller.usernameController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'Enter username',
+                    hintStyle: TextStyle(color: Color(0xff94A3B8)),
+                    errorText: controller.usernameError.value,
+                    prefixIcon: Icon(
+                      Icons.person_outline,
+                      color: Color(0xff64748B),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 17,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),
@@ -204,7 +215,7 @@ class UserFormScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff0F172A),
+                  color: AppColor.textPrimary,
                 ),
               ),
               const SizedBox(height: 10),
@@ -251,40 +262,43 @@ class UserFormScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff0F172A),
+                  color: AppColor.textPrimary,
                 ),
               ),
               const SizedBox(height: 10),
-              TextField(
-                controller: controller.passwordController,
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  hintText: 'Enter password',
-                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  prefixIcon: const Icon(
-                    Icons.lock_outline,
-                    color: Color(0xff64748B),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 17,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Colors.green,
-                      width: 1.5,
+              Obx(
+                () => TextField(
+                  controller: controller.passwordController,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    hintText: 'Enter password',
+                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    errorText: controller.passwordError.value,
+                    prefixIcon: const Icon(
+                      Icons.lock_outline,
+                      color: Color(0xff64748B),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 17,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),

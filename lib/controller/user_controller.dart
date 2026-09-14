@@ -29,6 +29,8 @@ class UserController extends GetxController{
   // State
   // =========================
   final RxString existingImageUrl = ''.obs;
+  final RxnString usernameError = RxnString();
+  final RxnString passwordError = RxnString();
   final isPickingImage = false.obs;
   final selectedImage = Rxn<File>();
   final ImagePicker _picker = ImagePicker();
@@ -70,6 +72,18 @@ class UserController extends GetxController{
 
     loadFirstPage();
     scrollController.addListener(_onScroll);
+
+    usernameController.addListener(() {
+      if (usernameError.value != null && usernameController.text.trim().isNotEmpty) {
+        usernameError.value = null;
+      }
+    });
+
+    passwordController.addListener(() {
+      if (passwordError.value != null && passwordController.text.trim().isNotEmpty) {
+        passwordError.value = null;
+      }
+    });
   }
 
   void _onScroll() {
@@ -210,21 +224,21 @@ class UserController extends GetxController{
     final nickName = nickNameController.text.trim();
     final password = passwordController.text.trim();
 
+    usernameError.value = null;
+    passwordError.value = null;
+
+    bool hasError = false;
     if (username.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Username is required',
-      );
-      return;
+      usernameError.value = 'Username is required';
+      hasError = true;
     }
 
     if (password.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Password is required',
-      );
-      return;
+      passwordError.value = 'Password is required';
+      hasError = true;
     }
+
+    if (hasError) return;
 
     try {
       isCreating.value = true;
@@ -295,9 +309,6 @@ class UserController extends GetxController{
           );
         }
       }
-      
-      
-
 
       // =========================
       // 3. Add to local list
@@ -445,7 +456,7 @@ class UserController extends GetxController{
     usernameController.text = user.username ?? '';
     nickNameController.text = user.nickName ?? '';
     enabled.value = user.enabled ?? false;
-
+    existingImageUrl.value = user.imageUrl ?? '';
     Get.toNamed('/users/form');
   }
 
@@ -456,7 +467,8 @@ class UserController extends GetxController{
     nickNameController.clear();
     passwordController.clear();
     enabled.value = true;
-
+    usernameError.value = null;
+    passwordError.value = null;
     selectedImage.value = null;
     existingImageUrl.value = '';
     Get.toNamed('/users/form');

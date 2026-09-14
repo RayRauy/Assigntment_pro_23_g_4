@@ -169,36 +169,38 @@ class PostFormScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-
-              TextField(
-                controller: controller.titleController,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  hintText: 'enter_post_title'.tr,
-                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  prefixIcon: const Icon(
-                    Icons.title_rounded,
-                    color: Color(0xff64748B),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 17,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Colors.green,
-                      width: 1.5,
+              Obx(
+                () => TextField(
+                  controller: controller.titleController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    hintText: 'enter_post_title'.tr,
+                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    errorText: controller.titleError.value,
+                    prefixIcon: const Icon(
+                      Icons.title_rounded,
+                      color: Color(0xff64748B),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 17,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),
@@ -219,31 +221,33 @@ class PostFormScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 10),
-
-              TextField(
-                controller: controller.contentController,
-                maxLines: 5,
-                textInputAction: TextInputAction.newline,
-                decoration: InputDecoration(
-                  hintText: 'write_your_post_content'.tr,
-                  hintStyle: const TextStyle(color: Color(0xff94A3B8)),
-                  alignLabelWithHint: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.all(16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Colors.green,
-                      width: 1.5,
+              Obx(
+                () => TextField(
+                  controller: controller.contentController,
+                  maxLines: 5,
+                  textInputAction: TextInputAction.newline,
+                  decoration: InputDecoration(
+                    hintText: 'write_your_post_content'.tr,
+                    hintStyle: const TextStyle(color: Color(0xff94A3B8)),
+                    errorText: controller.contentError.value,
+                    alignLabelWithHint: true,
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.all(16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Colors.green,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),

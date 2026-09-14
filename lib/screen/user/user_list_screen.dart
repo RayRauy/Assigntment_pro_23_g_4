@@ -12,9 +12,6 @@ import '../../core/value/app_color.dart';
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
 
-  // @override
-  // State<UserListScreen> createState() => _UserListScreenState();
-// class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +22,11 @@ class UserListScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Obx(() {
-        // if (controller.isLoading.value) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // }
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
         if (controller.errorMessage.value.isNotEmpty) {
           return Center(
