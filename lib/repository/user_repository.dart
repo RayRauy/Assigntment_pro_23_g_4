@@ -40,10 +40,10 @@ class UserRepository {
       print('======================================');
 
       return (
-        null,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Request failed',
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed',
       );
     } catch (e) {
       print('GET USERS ERROR: $e');
@@ -94,10 +94,10 @@ class UserRepository {
       // return (false, 'Image upload failed: ${response.statusCode}');
     } on DioException catch (e) {
       return (
-        false,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Image upload failed',
+      false,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Image upload failed',
       );
     } catch (e) {
       print(e);
@@ -114,10 +114,10 @@ class UserRepository {
       return (true, null);
     } on DioException catch (e) {
       return (
-        false,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Image upload failed',
+      false,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Image upload failed',
       );
     } catch (e) {
       print(e);
