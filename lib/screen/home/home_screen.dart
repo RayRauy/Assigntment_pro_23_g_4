@@ -1,13 +1,13 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/value/app_color.dart';
 import '../../model/post/post_model.dart';
 import '../../model/post/slider_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,8 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Screen', style: TextStyle(color: Colors.black)),
-        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('home_screen'.tr, style: TextStyle(color: AppColor.textPrimary)),
+        iconTheme: IconThemeData(color: AppColor.textPrimary),
       ),
       drawer: Drawer(
         child: Column(
@@ -116,16 +116,16 @@ class HomeScreen extends StatelessWidget {
                     title: Text('language'.tr),
                     onTap: () {
                       if(Get.locale?.languageCode=='en'){
-                        Get.updateLocale(const Locale('km', 'KH'));
+                        Get.updateLocale(Locale('km', 'KH'));
                       }else{
-                        Get.updateLocale(const Locale('en', 'US'));
+                        Get.updateLocale(Locale('en', 'US'));
                       }
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.signal_cellular_alt),
                     trailing: Text(
-                      "Online",
+                      "online".tr,
                       style: TextStyle(
                         color: Colors.green,
                         fontSize: 15,
@@ -154,7 +154,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.only(bottom: 20, top: 20),
+          padding: EdgeInsets.only(bottom: 20, top: 20),
 
           children: <Widget>[
             // =========================
@@ -164,7 +164,7 @@ class HomeScreen extends StatelessWidget {
               items: banners.map((SliderModel banner) {
                 return Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  margin: EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Colors.greenAccent,
@@ -180,7 +180,7 @@ class HomeScreen extends StatelessWidget {
                         banner.fullImageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (_, _, _) {
-                          return const Icon(
+                          return Icon(
                             Icons.image_not_supported_outlined,
                             size: 40,
                           );
@@ -190,7 +190,7 @@ class HomeScreen extends StatelessWidget {
                       // =========================
                       // Dark Overlay
                       // =========================
-                      const DecoratedBox(
+                      DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.center,
@@ -212,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               banner.title,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class HomeScreen extends StatelessWidget {
                                 banner.subtitle!.isNotEmpty)
                               Text(
                                 banner.subtitle!,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
                                 ),
@@ -244,12 +244,12 @@ class HomeScreen extends StatelessWidget {
                 height: 190,
                 viewportFraction: 0.88,
                 autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 4),
+                autoPlayInterval: Duration(seconds: 4),
                 enlargeCenterPage: true,
               ),
             ),
 
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
 
             // =========================
             // Latest Posts Title
@@ -257,12 +257,12 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Latest Posts',
+                'latest_posts'.tr,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
 
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
 
             // =========================
             // Post List
@@ -271,9 +271,9 @@ class HomeScreen extends StatelessWidget {
               final String url = post.fullImageUrl;
 
               return Card(
-                margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                margin: EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
                   child: Row(
                     children: <Widget>[
                       // =========================
@@ -288,7 +288,7 @@ class HomeScreen extends StatelessWidget {
                             url,
                             fit: BoxFit.cover,
                             errorBuilder: (_, _, _) {
-                              return const ColoredBox(
+                              return ColoredBox(
                                 color: Colors.greenAccent,
                                 child: Icon(Icons.article_outlined),
                               );
@@ -297,7 +297,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
 
                       // =========================
                       // Post Information
@@ -308,7 +308,7 @@ class HomeScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               post.title,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -316,11 +316,11 @@ class HomeScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
 
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
 
                             Text(
                               post.author?.displayName ?? 'Unknown',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey,
                               ),

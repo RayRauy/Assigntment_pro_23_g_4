@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pro_23/screen/main_screen.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../repository/auth_repository.dart';
@@ -28,27 +27,27 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                const Icon(
+                Icon(
                   Icons.lock_outline,
                   size: 80,
                   color: Color(0xFF5FF013),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                const Text(
+                Text(
                   'Welcome Back',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
 
-                const Text(
+                Text(
                   'Login to your account',
                   style: TextStyle(color: Colors.grey),
                 ),
 
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
 
                 // Email / Username
                 TextField(
@@ -56,14 +55,14 @@ class LoginScreen extends StatelessWidget {
                   // keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Username',
-                    prefixIcon: const Icon(Icons.person_outlined),
+                    prefixIcon: Icon(Icons.person_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Password
                 TextField(
@@ -71,14 +70,14 @@ class LoginScreen extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
+                    prefixIcon: Icon(Icons.lock_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 // Login Button
                 SizedBox(
@@ -93,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Login',
                         style: TextStyle(fontSize: 16),
                       ),

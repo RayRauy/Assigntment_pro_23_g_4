@@ -14,8 +14,8 @@ class PostListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post List', style: TextStyle(color: AppColor.textPrimary)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text('post_list'.tr, style: TextStyle(color: AppColor.textPrimary)),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
 
       body: Obx(() {
@@ -29,10 +29,10 @@ class PostListScreen extends StatelessWidget {
           children: [
             // Search Bar
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: SearchBar(
-                hintText: 'Search posts...',
-                leading: const Icon(Icons.search),
+                hintText: 'search_post'.tr,
+                leading: Icon(Icons.search),
                 onChanged: (value) {
                   controller.loadFirstPage(
                       title: value,
@@ -45,7 +45,7 @@ class PostListScreen extends StatelessWidget {
             // Posts
             Expanded(
               child: controller.posts.isEmpty
-                  ? const Center(child: Text('No post found'))
+                  ? Center(child: Text('No post found'))
                   : RefreshIndicator(
                       onRefresh: () async {
                         await controller.loadFirstPage();
@@ -53,9 +53,9 @@ class PostListScreen extends StatelessWidget {
 
                       child: ListView.builder(
                         controller: controller.scrollController,
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: AlwaysScrollableScrollPhysics(),
 
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
@@ -67,7 +67,7 @@ class PostListScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           // Pagination Loading
                           if (index == controller.posts.length) {
-                            return const Padding(
+                            return Padding(
                               padding: EdgeInsets.all(16),
                               child: Center(child: CircularProgressIndicator()),
                             );
@@ -77,9 +77,9 @@ class PostListScreen extends StatelessWidget {
 
                           // Post Card
                           return Container(
-                            margin: const EdgeInsets.only(bottom: 12),
+                            margin: EdgeInsets.only(bottom: 12),
 
-                            padding: const EdgeInsets.all(16),
+                            padding: EdgeInsets.all(16),
 
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -115,7 +115,7 @@ class PostListScreen extends StatelessWidget {
                                                   return Container(
                                                     color: Colors.teal.shade50,
 
-                                                    child: const Icon(
+                                                    child: Icon(
                                                       Icons.article_outlined,
                                                       size: 40,
                                                       color: Colors.green,
@@ -126,7 +126,7 @@ class PostListScreen extends StatelessWidget {
                                         : Container(
                                             color: Colors.teal.shade50,
 
-                                            child: const Icon(
+                                            child: Icon(
                                               Icons.article_outlined,
                                               size: 40,
                                               color: Colors.green,
@@ -135,7 +135,7 @@ class PostListScreen extends StatelessWidget {
                                   ),
                                 ),
 
-                                const SizedBox(width: 16),
+                                SizedBox(width: 16),
 
                                 // Post Information
                                 Expanded(
@@ -150,13 +150,13 @@ class PostListScreen extends StatelessWidget {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
 
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
 
-                                      const SizedBox(height: 6),
+                                      SizedBox(height: 6),
 
                                       // Content
                                       Text(
@@ -170,7 +170,7 @@ class PostListScreen extends StatelessWidget {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 8),
 
                                       // Author + Date
                                       Text(
@@ -187,7 +187,7 @@ class PostListScreen extends StatelessWidget {
 
                                 // More Button
                                 PopupMenuButton<String>(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.more_vert,
                                     color: Colors.blueGrey,
                                   ),
@@ -203,7 +203,7 @@ class PostListScreen extends StatelessWidget {
                                   },
 
                                   itemBuilder: (context) {
-                                    return const [
+                                    return [
                                       PopupMenuItem(
                                         value: 'edit',
                                         child: Text('Edit'),
@@ -233,7 +233,7 @@ class PostListScreen extends StatelessWidget {
           Get.toNamed('/posts/form');
         },
 
-        icon: const Icon(Icons.add),
+        icon: Icon(Icons.add),
 
         label: Text('new_post'.tr),
       ),

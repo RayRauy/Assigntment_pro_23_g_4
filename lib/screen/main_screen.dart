@@ -4,7 +4,6 @@ import 'package:pro_23/screen/home/home_screen.dart';
 import 'package:pro_23/screen/post/post_list_screen.dart';
 import 'package:pro_23/screen/setting/setting_screen.dart';
 import 'package:pro_23/screen/user/user_list_screen.dart';
-import 'package:pro_23/screen/user/user_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

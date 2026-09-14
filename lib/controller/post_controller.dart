@@ -17,8 +17,10 @@ class PostController extends GetxController {
   final TextEditingController contentController = TextEditingController();
 
   // State
+  final RxnString titleError = RxnString();
+  final RxnString contentError = RxnString();
   final isPickingImage = false.obs;
-
+  final RxString existingImageUrl = ''.obs;
   final selectedImage = Rxn<File>();
   final ImagePicker _picker = ImagePicker();
   final isDeleting = false.obs;
@@ -52,6 +54,18 @@ class PostController extends GetxController {
 
     loadFirstPage();
     scrollController.addListener(_onScroll);
+
+    titleController.addListener(() {
+      if (titleError.value != null && titleController.text.trim().isNotEmpty) {
+        titleError.value = null;
+      }
+    });
+
+    contentController.addListener(() {
+      if (contentError.value != null && contentController.text.trim().isNotEmpty) {
+        contentError.value = null;
+      }
+    });
   }
 
   void _onScroll() {
@@ -199,7 +213,7 @@ class PostController extends GetxController {
     titleController.text = post.title ?? '';
     contentController.text = post.content ?? '';
     published.value = post.published ?? false;
-
+    existingImageUrl.value = post.imageUrl ?? '';
     Get.toNamed('/posts/form');
   }
 
@@ -231,21 +245,21 @@ class PostController extends GetxController {
     final title = titleController.text.trim();
     final content = contentController.text.trim();
 
+    titleError.value = null;
+    contentError.value = null;
+
+    bool hasError = false;
     if (title.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Title is required',
-      );
-      return;
+      titleError.value = 'Title is required';
+      hasError = true;
     }
 
     if (content.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Content is required',
-      );
-      return;
+      contentError.value = 'Content is required';
+      hasError = true;
     }
+
+    if (hasError) return;
 
     try {
       isUpdating.value = true;
@@ -310,21 +324,21 @@ class PostController extends GetxController {
     final title = titleController.text.trim();
     final content = contentController.text.trim();
 
+    titleError.value = null;
+    contentError.value = null;
+
+    bool hasError = false;
     if (title.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Title is required',
-      );
-      return;
+      titleError.value = 'Title is required';
+      hasError = true;
     }
 
     if (content.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Content is required',
-      );
-      return;
+      contentError.value = 'Content is required';
+      hasError = true;
     }
+
+    if (hasError) return;
 
     try {
       isCreating.value = true;
@@ -518,6 +532,19 @@ class PostController extends GetxController {
     } finally {
       isPickingImage.value = false;
     }
+  }
+
+  void startCreate() {
+    editingPost = null;
+
+    titleController.clear();
+    contentController.clear();
+
+    published.value = true;
+
+    selectedImage.value = null;
+    existingImageUrl.value = '';
+    Get.toNamed('/posts/form');
   }
 
   @override

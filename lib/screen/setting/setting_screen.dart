@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/value/app_color.dart';
+
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
 
@@ -9,11 +11,11 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Setting Screen'.tr,
+          'setting'.tr,
           style: TextStyle(
-            color: Colors.black,
+            color: AppColor.textPrimary,
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            // fontWeight: FontWeight.bold,
             fontFamily: 'NotoSansKhmer',
           ),
         ),
@@ -45,11 +47,11 @@ class SettingScreen extends StatelessWidget {
                     Container(
                       width: 88,
                       height: 88,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.lightGreenAccent,
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'AD',
                           style: TextStyle(
@@ -61,7 +63,7 @@ class SettingScreen extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(width: 24),
+                    SizedBox(width: 24),
 
                     // User information
                     Expanded(
@@ -69,7 +71,7 @@ class SettingScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Signed in as'.tr,
+                            'signed_in_as'.tr,
                             style: TextStyle(
                               color: Color(0xFFF3FFFC),
                               fontSize: 17,
@@ -109,7 +111,7 @@ class SettingScreen extends StatelessWidget {
               // YOUR ACCOUNT
               // =========================
               Text(
-                'YOUR ACCOUNT'.tr,
+                'your_account'.tr,
                 style: TextStyle(
                   color: Color(0xFF94A3B8),
                   fontSize: 16,
@@ -123,7 +125,7 @@ class SettingScreen extends StatelessWidget {
               // Edit Profile
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 40,
                     child: Icon(
                       Icons.edit_outlined,
@@ -132,14 +134,14 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(width: 18),
+                  SizedBox(width: 18),
 
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Edit profile'.tr,
+                          'edit_profile'.tr,
                           style: TextStyle(
                             color: Color(0xFF202938),
                             fontSize: 19,
@@ -150,7 +152,7 @@ class SettingScreen extends StatelessWidget {
                         SizedBox(height: 5),
 
                         Text(
-                          'Update your name and photo'.tr,
+                          'update_name_photo'.tr,
                           style: TextStyle(
                             color: Color(0xFF718096),
                             fontSize: 16,
@@ -160,7 +162,7 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const Icon(
+                  Icon(
                     Icons.chevron_right,
                     size: 32,
                     color: Color(0xFF94A3B8),
@@ -168,13 +170,13 @@ class SettingScreen extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 45),
+              SizedBox(height: 45),
 
               // =========================
               // PREFERENCES
               // =========================
               Text(
-                'PREFERENCES'.tr,
+                'preferences'.tr,
                 style: TextStyle(
                   color: Color(0xFF94A3B8),
                   fontSize: 16,
@@ -183,14 +185,14 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 25),
+              SizedBox(height: 25),
 
               // =========================
               // Language
               // =========================
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: const SizedBox(
+                leading: SizedBox(
                   width: 40,
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -206,7 +208,7 @@ class SettingScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Language'.tr,
+                      'language'.tr,
                       style: TextStyle(
                         color: Color(0xFF202938),
                         fontSize: 19,
@@ -217,7 +219,7 @@ class SettingScreen extends StatelessWidget {
                     SizedBox(height: 5),
 
                     Text(
-                      'Switch between Khmer and English'.tr,
+                      'switch_language'.tr,
                       style: TextStyle(color: Color(0xFF718096), fontSize: 16),
                     ),
                   ],
@@ -225,11 +227,11 @@ class SettingScreen extends StatelessWidget {
 
                 trailing: Text(
                   Get.locale?.languageCode == 'km' ? 'ភាសាខ្មែរ' : 'English',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.green,
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'NotoSansKhmer',
+                    fontFamily: 'NotoSansKhmer-Regular',
                   ),
                 ),
 
@@ -244,7 +246,7 @@ class SettingScreen extends StatelessWidget {
                         // English
                         // =========================
                         ListTile(
-                          leading: const Text(
+                          leading: Text(
                             'EN',
                             style: TextStyle(
                               fontSize: 20,
@@ -252,7 +254,7 @@ class SettingScreen extends StatelessWidget {
                             ),
                           ),
 
-                          title: const Text(
+                          title: Text(
                             'English',
                             style: TextStyle(
                               fontSize: 20,
@@ -261,7 +263,7 @@ class SettingScreen extends StatelessWidget {
                           ),
 
                           onTap: () {
-                            Get.updateLocale(const Locale('en', 'US'));
+                            Get.updateLocale(Locale('en', 'US'));
 
                             Get.back();
                           },
@@ -271,7 +273,7 @@ class SettingScreen extends StatelessWidget {
                         // Khmer
                         // =========================
                         ListTile(
-                          leading: const Text(
+                          leading: Text(
                             'KH',
                             style: TextStyle(
                               fontSize: 20,
@@ -279,7 +281,7 @@ class SettingScreen extends StatelessWidget {
                             ),
                           ),
 
-                          title: const Text(
+                          title: Text(
                             'ភាសាខ្មែរ',
                             style: TextStyle(
                               fontSize: 20,
@@ -288,7 +290,7 @@ class SettingScreen extends StatelessWidget {
                           ),
 
                           onTap: () {
-                            Get.updateLocale(const Locale('km', 'KH'));
+                            Get.updateLocale(Locale('km', 'KH'));
 
                             Get.back();
                           },
@@ -299,23 +301,23 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 35),
+              SizedBox(height: 35),
 
               // =========================
               // Connection
               // =========================
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 40,
                     child: Icon(Icons.wifi, size: 32, color: Colors.lightGreen),
                   ),
 
-                  const SizedBox(width: 18),
+                  SizedBox(width: 18),
 
                   Expanded(
                     child: Text(
-                      'Connection'.tr,
+                      'connection'.tr,
                       style: TextStyle(
                         color: Color(0xFF202938),
                         fontSize: 19,
@@ -325,7 +327,7 @@ class SettingScreen extends StatelessWidget {
                   ),
 
                   Text(
-                    'Online'.tr,
+                    'online'.tr,
                     style: TextStyle(
                       color: Colors.lightGreen,
                       fontSize: 17,
@@ -335,13 +337,13 @@ class SettingScreen extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 45),
+              SizedBox(height: 45),
 
               // =========================
               // ABOUT
               // =========================
               Text(
-                'ABOUT'.tr,
+                'about'.tr,
                 style: TextStyle(
                   color: Color(0xFF94A3B8),
                   fontSize: 16,
@@ -350,14 +352,14 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 25),
+              SizedBox(height: 25),
 
               // =========================
               // Version
               // =========================
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 40,
                     child: Icon(
                       Icons.info_outline,
@@ -366,11 +368,11 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(width: 18),
+                  SizedBox(width: 18),
 
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Version',
+                      'version'.tr,
                       style: TextStyle(
                         color: Color(0xFF202938),
                         fontSize: 19,
@@ -379,14 +381,14 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const Text(
+                  Text(
                     '1.0.0',
                     style: TextStyle(color: Color(0xFF718096), fontSize: 17),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 50),
+              SizedBox(height: 50),
 
               // =========================
               // Logout Button
@@ -400,7 +402,7 @@ class SettingScreen extends StatelessWidget {
                   },
 
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE92327),
+                    backgroundColor: Color(0xFFE92327),
                     foregroundColor: Colors.white,
                     elevation: 0,
 
@@ -417,7 +419,7 @@ class SettingScreen extends StatelessWidget {
                       SizedBox(width: 10),
 
                       Text(
-                        'Logout'.tr,
+                        'logout'.tr,
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,

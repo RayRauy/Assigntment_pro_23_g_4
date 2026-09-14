@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pro_23/binding/initial_binding.dart';
 import 'package:pro_23/router/app_page.dart';
-import 'package:pro_23/translation/app_translation.dart';
 
+import 'core/translation/app_translation.dart';
 import 'core/value/app_color.dart';
 
 void main() {
@@ -18,19 +18,18 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         appBarTheme: AppBarTheme(
           backgroundColor: AppColor.primary,
           foregroundColor: Colors.white,
           elevation: 0,
         ),
+        fontFamily: 'NotoSansKhmer',
       ),
 
+      locale: Locale('en', 'US'),
+      fallbackLocale: Locale('en', 'US'),
       translations: AppTranslation(),
 
-      locale: const Locale('en', 'US'),
-
-      fallbackLocale: const Locale('en', 'US'),
       initialBinding: InitialBinding(),
       getPages: AppPage.pages,
       initialRoute: '/',

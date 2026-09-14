@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:pro_23/controller/user_controller.dart';
@@ -12,24 +11,22 @@ import '../../core/value/app_color.dart';
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
 
-  // @override
-  // State<UserListScreen> createState() => _UserListScreenState();
-// class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
   final UserController controller = Get.find<UserController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List', style: TextStyle(color: AppColor.textPrimary)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text('user_list'.tr, style: TextStyle(color: AppColor.textPrimary)),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
+
       body: Obx(() {
-        // if (controller.isLoading.value) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // }
+        if (controller.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
         if (controller.errorMessage.value.isNotEmpty) {
           return Center(
@@ -42,10 +39,10 @@ class UserListScreen extends StatelessWidget {
           children: [
             // Search Bar
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: SearchBar(
-                hintText: 'Search users...',
-                leading: const Icon(Icons.search),
+                hintText: 'search_user'.tr,
+                leading: Icon(Icons.search),
                 onChanged: (value) {
                   controller.loadFirstPage(
                     username: value,
@@ -58,7 +55,7 @@ class UserListScreen extends StatelessWidget {
             // User List
             Expanded(
               child: controller.users.isEmpty
-                  ? const Center(
+                  ? Center(
                 child: Text('No user found'),
               )
                   : RefreshIndicator(
@@ -68,9 +65,9 @@ class UserListScreen extends StatelessWidget {
 
                 child: ListView.builder(
                   controller: controller.scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
+                  physics: AlwaysScrollableScrollPhysics(),
 
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 8,
                   ),
@@ -82,7 +79,7 @@ class UserListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     // Pagination Loading
                     if (index == controller.users.length) {
-                      return const Padding(
+                      return Padding(
                         padding: EdgeInsets.all(16),
                         child: Center(
                           child: CircularProgressIndicator(),
@@ -94,9 +91,9 @@ class UserListScreen extends StatelessWidget {
 
                     // User Card
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
+                      margin: EdgeInsets.only(bottom: 12),
 
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
 
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -131,7 +128,7 @@ class UserListScreen extends StatelessWidget {
                                     (context, error, stackTrace) {
                                   return Container(
                                     color: Colors.grey.shade50,
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.person,
                                       size: 40,
                                       color: Colors.green,
@@ -141,7 +138,7 @@ class UserListScreen extends StatelessWidget {
                               )
                                   : Container(
                                 color: Colors.grey.shade50,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.person,
                                   size: 40,
                                   color: Colors.green,
@@ -150,7 +147,7 @@ class UserListScreen extends StatelessWidget {
                             ),
                           ),
 
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16),
 
                           // User Information
                           Expanded(
@@ -165,13 +162,13 @@ class UserListScreen extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
 
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                const SizedBox(height: 6),
+                                SizedBox(height: 6),
 
                                 // Nickname
                                 Text(
@@ -185,7 +182,7 @@ class UserListScreen extends StatelessWidget {
                                   ),
                                 ),
 
-                                const SizedBox(height: 8),
+                                SizedBox(height: 8),
 
                                 // Status
                                 Text(
@@ -206,7 +203,7 @@ class UserListScreen extends StatelessWidget {
 
                           // More Button
                           PopupMenuButton<String>(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.more_vert,
                               color: Colors.blueGrey,
                             ),
@@ -222,7 +219,7 @@ class UserListScreen extends StatelessWidget {
                             },
 
                             itemBuilder: (context) {
-                              return const [
+                              return [
                                 PopupMenuItem(
                                   value: 'edit',
                                   child: Text('Edit'),
@@ -252,7 +249,7 @@ class UserListScreen extends StatelessWidget {
           controller.startCreate();
         },
 
-        icon: const Icon(Icons.add),
+        icon: Icon(Icons.add),
 
         label: Text('new_user'.tr),
       ),
