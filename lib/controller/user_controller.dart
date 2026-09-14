@@ -256,11 +256,7 @@ class UserController extends GetxController{
         return;
       }
 
-      // =========================
-      // 2. Upload Image
-      // =========================
-
-      // 2. Upload Image if exists
+    // 2. Upload Image if exists
       if (selectedImage.value != null && user.id != null) {
         final (bool success, String? uploadError) = await _userRepo.uploadUserImage(
           userId: user.id!,
@@ -295,8 +291,8 @@ class UserController extends GetxController{
           );
         }
       }
-      
-      
+
+
 
 
       // =========================

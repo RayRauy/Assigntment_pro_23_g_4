@@ -40,10 +40,10 @@ class UserRepository {
       print('======================================');
 
       return (
-        null,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Request failed',
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed',
       );
     } catch (e) {
       print('GET USERS ERROR: $e');
@@ -55,7 +55,7 @@ class UserRepository {
   Future<(userData?, String?)> createUser({required String username, String? nickName, required String password,}) async {
     try {
       final response = await _api.post(
-        ApiConstant.register,
+        ApiConstant.users,
         body: {
           'username': username,
           'nickName': nickName,
@@ -91,10 +91,10 @@ class UserRepository {
       // return (false, 'Image upload failed: ${response.statusCode}');
     } on DioException catch (e) {
       return (
-        false,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Image upload failed',
+      false,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Image upload failed',
       );
     } catch (e) {
       print(e);
@@ -111,10 +111,10 @@ class UserRepository {
       return (true, null);
     } on DioException catch (e) {
       return (
-        false,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Image upload failed',
+      false,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Image upload failed',
       );
     } catch (e) {
       print(e);
