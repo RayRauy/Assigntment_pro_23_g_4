@@ -14,7 +14,7 @@ class UserListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final UserController controller = Get.find<UserController>();
+    final UserController controller = Get.find<UserController>();
     return Scaffold(
       appBar: AppBar(
         title: Text('user_list'.tr, style: TextStyle(color: AppColor.textPrimary)),

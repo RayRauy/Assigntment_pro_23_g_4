@@ -6,6 +6,7 @@ import 'package:pro_23/router/app_route.dart';
 import 'package:pro_23/screen/auth/login_screen.dart';
 import 'package:pro_23/screen/main_screen.dart';
 import 'package:pro_23/screen/post/post_form_screen.dart';
+import 'package:pro_23/screen/user/user_edit_screen.dart';
 import 'package:pro_23/screen/user/user_list_screen.dart';
 
 import '../binding/main_binding.dart';
@@ -47,6 +48,12 @@ class AppPage {
     GetPage<void>(
       name: AppRoute.userForm,
       page: UserFormScreen.new,
+      binding: UserBinding(),
+    ),
+
+    GetPage<void>(
+      name: AppRoute.userEdit,
+      page: UserEditScreen.new,
       binding: UserBinding(),
     ),
   ];

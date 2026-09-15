@@ -12,7 +12,7 @@ class PostFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final PostController controller = Get.find<PostController>();
+    final PostController controller = Get.find<PostController>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -42,7 +42,7 @@ class PostFormScreen extends StatelessWidget {
                   ),
                 ),
 
-                 SizedBox(height: 2),
+                SizedBox(height: 2),
 
                 Text(
                   isEdit
@@ -77,12 +77,12 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 10),
+              SizedBox(height: 10),
 
               GestureDetector(
                 onTap: controller.pickImage,
                 child: Obx(
-                  () => Container(
+                      () => Container(
                     width: double.infinity,
                     height: 190,
                     decoration: BoxDecoration(
@@ -106,59 +106,59 @@ class PostFormScreen extends StatelessWidget {
                     child: controller.selectedImage.value == null &&
                         controller.existingImageUrl.value.isEmpty
                         ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 64,
-                                height: 64,
-                                decoration: BoxDecoration(
-                                  color: Color(0xffECFDF5),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Icon(
-                                  Icons.add_photo_alternate_outlined,
-                                  size: 32,
-                                  color: Color(0xff44b626),
-                                ),
-                              ),
-                              SizedBox(height: 14),
-                              Text(
-                                'add_cover_image'.tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff334155),
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                'tap_to_upload_image'.tr,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Color(0xff94A3B8),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Stack(
-                            children: [
-                              Positioned(
-                                right: 8,
-                                top: 8,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.black54,
-                                  child: IconButton(
-                                    icon:  Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () =>
-                                        controller.selectedImage.value = null,
-                                  ),
-                                ),
-                              ),
-                            ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            color: Color(0xffECFDF5),
+                            borderRadius: BorderRadius.circular(16),
                           ),
+                          child: Icon(
+                            Icons.add_photo_alternate_outlined,
+                            size: 32,
+                            color: Color(0xff44b626),
+                          ),
+                        ),
+                        SizedBox(height: 14),
+                        Text(
+                          'add_cover_image'.tr,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff334155),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'tap_to_upload_image'.tr,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xff94A3B8),
+                          ),
+                        ),
+                      ],
+                    )
+                        : Stack(
+                      children: [
+                        Positioned(
+                          right: 8,
+                          top: 8,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black54,
+                            child: IconButton(
+                              icon:  Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                              onPressed: () =>
+                              controller.selectedImage.value = null,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -176,9 +176,9 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 10),
+              SizedBox(height: 10),
               Obx(
-                () => TextField(
+                    () => TextField(
                   controller: controller.titleController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -214,7 +214,7 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // CONTENT
@@ -228,9 +228,9 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 10),
+              SizedBox(height: 10),
               Obx(
-                () => TextField(
+                    () => TextField(
                   controller: controller.contentController,
                   maxLines: 5,
                   textInputAction: TextInputAction.newline,
@@ -261,13 +261,13 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 26),
+              SizedBox(height: 26),
 
               // =========================
               // PUBLISH
               // =========================
               Obx(
-                () => Container(
+                    () => Container(
                   padding:  EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -289,7 +289,7 @@ class PostFormScreen extends StatelessWidget {
                         ),
                       ),
 
-                       SizedBox(width: 15),
+                      SizedBox(width: 15),
 
                       Expanded(
                         child: Column(
@@ -304,7 +304,7 @@ class PostFormScreen extends StatelessWidget {
                               ),
                             ),
 
-                             SizedBox(height: 4),
+                            SizedBox(height: 4),
 
                             Text(
                               'make_this_post_visible_to_everyone'.tr,
@@ -330,7 +330,7 @@ class PostFormScreen extends StatelessWidget {
                 ),
               ),
 
-               SizedBox(height: 30),
+              SizedBox(height: 30),
 
               // =========================
               // CREATE BUTTON
@@ -339,10 +339,10 @@ class PostFormScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 56,
                 child: Obx(
-                  () => ElevatedButton(
+                      () => ElevatedButton(
                     onPressed:
-                        controller.isCreating.value ||
-                            controller.isUpdating.value
+                    controller.isCreating.value ||
+                        controller.isUpdating.value
                         ? null
                         : controller.editingPost == null
                         ? controller.createPost
@@ -359,55 +359,55 @@ class PostFormScreen extends StatelessWidget {
                     ),
 
                     child:
-                        controller.isCreating.value ||
-                            controller.isUpdating.value
+                    controller.isCreating.value ||
+                        controller.isUpdating.value
                         ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                               SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              ),
-
-                               SizedBox(width: 12),
-
-                              Text(
-                                controller.isCreating.value
-                                    ? 'Creating...'
-                                    : 'Updating...',
-                                style:  TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                controller.editingPost == null
-                                    ? Icons.check_circle_outline
-                                    : Icons.save_outlined,
-                              ),
-
-                               SizedBox(width: 8),
-
-                              Text(
-                                controller.editingPost == null
-                                    ? 'Create Post'
-                                    : 'Update Post',
-                                style:  TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
+                        ),
+
+                        SizedBox(width: 12),
+
+                        Text(
+                          controller.isCreating.value
+                              ? 'Creating...'
+                              : 'Updating...',
+                          style:  TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                        : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          controller.editingPost == null
+                              ? Icons.check_circle_outline
+                              : Icons.save_outlined,
+                        ),
+
+                        SizedBox(width: 8),
+
+                        Text(
+                          controller.editingPost == null
+                              ? 'Create Post'
+                              : 'Update Post',
+                          style:  TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

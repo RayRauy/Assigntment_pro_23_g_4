@@ -107,8 +107,6 @@ class PostController extends GetxController {
     }
 
     if (isLoading.value) return;
-
-    isLoading.value = true;
     errorMessage.value = '';
 
     _page = 0;
@@ -272,6 +270,22 @@ class PostController extends GetxController {
         published: published.value,
       );
 
+      //======= 2. Upload Image if exists =======///
+      if (selectedImage.value != null && updatedPost?.id != null) {
+        final (bool success, String? uploadError) = await _postRepo.uploadPostImage(
+          postId: updatedPost!.id!,
+          filePath: selectedImage.value!.path,
+        );
+
+        if (!success) {
+          Get.snackbar(
+            'Partial Success',
+            'Post created, but image upload failed: ${uploadError ?? "Unknown error"}',
+            duration: const Duration(seconds: 5),
+          );
+        }
+      }
+
       if (error != null) {
         Get.snackbar(
           'Error',
@@ -297,6 +311,7 @@ class PostController extends GetxController {
       if (index != -1) {
         posts[index] = updatedPost;
       }
+
 
       // Clear editing state
       editingPost = null;

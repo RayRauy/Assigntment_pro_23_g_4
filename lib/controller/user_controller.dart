@@ -107,7 +107,7 @@ class UserController extends GetxController{
         const Duration(milliseconds: 400),
             () {
           loadFirstPage(
-            username: username,
+            username: searchTerm.value,
             debounce: false,
           );
         },
@@ -117,8 +117,6 @@ class UserController extends GetxController{
     }
 
     if (isLoading.value) return;
-
-    isLoading.value = true;
     errorMessage.value = '';
 
     _page = 0;
@@ -244,7 +242,7 @@ class UserController extends GetxController{
       isCreating.value = true;
 
       // =========================
-      // 1. Create Post
+      // 1. Create user
       // =========================
 
       final (userData? user, String? error) =
@@ -270,7 +268,7 @@ class UserController extends GetxController{
         return;
       }
 
-    // 2. Upload Image if exists
+      // 2. Upload Image if exists
       if (selectedImage.value != null && user.id != null) {
         final (bool success, String? uploadError) = await _userRepo.uploadUserImage(
           userId: user.id!,
@@ -305,8 +303,6 @@ class UserController extends GetxController{
           );
         }
       }
-      
-      
 
 
       // =========================
@@ -363,9 +359,156 @@ class UserController extends GetxController{
     }
   }
 
-  Future<void> updateUser() async{
+  Future<void> updateUser() async {
+    if (isUpdating.value) return;
 
+    if (editingUser == null) {
+      Get.snackbar(
+        'Error',
+        'User not found',
+      );
+      return;
+    }
+
+    final int? id = editingUser!.id;
+
+    if (id == null) {
+      Get.snackbar(
+        'Error',
+        'User ID not found',
+      );
+      return;
+    }
+
+    final username = usernameController.text.trim();
+    final nickName = nickNameController.text.trim();
+
+    if (username.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Username is required',
+      );
+      return;
+    }
+
+    if (nickName.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Nickname is required',
+      );
+      return;
+    }
+
+    try {
+      isUpdating.value = true;
+
+      // =========================
+      // Update User
+      // =========================
+      final (userData? updatedUser, String? error) =
+      await _userRepo.updateUser(
+        userId: id,
+        username: username,
+        nickName: nickName,
+      );
+
+      // 2. Upload Image if exists
+      if (selectedImage.value != null && updatedUser?.id != null) {
+        final (bool success, String? uploadError) = await _userRepo.uploadUserImage(
+          userId: updatedUser!.id!,
+          filePath: selectedImage.value!.path,
+        );
+
+        if (!success) {
+          Get.snackbar(
+            'Partial Success',
+            'User created, but image upload failed: ${uploadError ?? "Unknown error"}',
+            duration: const Duration(seconds: 5),
+          );
+        }
+      }
+
+      // =========================
+      // 2.5 Update Enabled Status via specific endpoint
+      // =========================
+      if (updatedUser?.id != null) {
+        final (bool toggleSuccess, String? toggleError) = await _userRepo.userEnabled(
+          userId: updatedUser!.id!,
+          enabled: enabled.value,
+        );
+
+        if (toggleSuccess) {
+          updatedUser?.enabled = enabled.value;
+        } else {
+          Get.snackbar(
+            'Partial Success',
+            'User created, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
+            duration: const Duration(seconds: 5),
+          );
+        }
+      }
+
+      // =========================
+      // API Error
+      // =========================
+      if (error != null) {
+        Get.snackbar(
+          'Error',
+          error,
+        );
+        return;
+      }
+
+      // =========================
+      // No updated user returned
+      // =========================
+      if (updatedUser == null) {
+        Get.snackbar(
+          'Error',
+          'Failed to update user',
+        );
+        return;
+      }
+
+      // =========================
+      // Update local list
+      // =========================
+      final index = users.indexWhere(
+            (user) => user.id == id,
+      );
+
+      if (index != -1) {
+        users[index] = updatedUser;
+        users.refresh();
+      }
+
+      // =========================
+      // Clear editing state
+      // =========================
+      editingUser = null;
+
+      usernameController.clear();
+      nickNameController.clear();
+      passwordController.clear();
+
+      // Keep your enabled state
+      enabled.value = true;
+
+      // =========================
+      // Close form
+      // =========================
+      Get.back();
+
+      Get.snackbar(
+        'Success',
+        'User updated successfully',
+      );
+    } finally {
+      isUpdating.value = false;
+    }
   }
+
+
 
   Future<void> deletePost(userData user) async {
     if (isDeleting.value) return;
@@ -456,7 +599,7 @@ class UserController extends GetxController{
     nickNameController.text = user.nickName ?? '';
     enabled.value = user.enabled ?? false;
     existingImageUrl.value = user.imageUrl ?? '';
-    Get.toNamed('/users/form');
+    Get.toNamed('/users-edit');
   }
 
   void startCreate() {

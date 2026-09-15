@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 
       initialBinding: InitialBinding(),
       getPages: AppPage.pages,
-      initialRoute: '/',
+      initialRoute: '/login',
     );
   }
 }

@@ -44,10 +44,10 @@ class PostRepository {
       print('======================================');
 
       return (
-        null,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Request failed',
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed',
       );
     } catch (e) {
       print('GET POSTS ERROR: $e');
@@ -170,10 +170,10 @@ class PostRepository {
       print('================================');
 
       return (
-        null,
-        e.response?.data?['message']?.toString() ??
-            e.message ??
-            'Request failed',
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Request failed',
       );
     }
     // =========================

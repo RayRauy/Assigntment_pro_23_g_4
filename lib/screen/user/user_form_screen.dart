@@ -74,7 +74,7 @@ class UserFormScreen extends StatelessWidget {
               GestureDetector(
                 onTap: controller.pickImage,
                 child: Obx(
-                  () => Container(
+                      () => Container(
                     width: double.infinity,
                     height: 190,
                     decoration: BoxDecoration(
@@ -98,59 +98,59 @@ class UserFormScreen extends StatelessWidget {
                     child: controller.selectedImage.value == null &&
                         controller.existingImageUrl.value.isEmpty
                         ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 64,
-                                height: 64,
-                                decoration: BoxDecoration(
-                                  color: Color(0xffECFDF5),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Icon(
-                                  Icons.add_a_photo_outlined,
-                                  size: 32,
-                                  color: Color(0xff44b626),
-                                ),
-                              ),
-                              SizedBox(height: 14),
-                              Text(
-                                'add_profile_image'.tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColor.textPrimary,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                'tap_to_upload_an_image'.tr,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColor.textSecondary,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Stack(
-                            children: [
-                              Positioned(
-                                right: 8,
-                                top: 8,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.black54,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () =>
-                                        controller.selectedImage.value = null,
-                                  ),
-                                ),
-                              ),
-                            ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            color: Color(0xffECFDF5),
+                            borderRadius: BorderRadius.circular(16),
                           ),
+                          child: Icon(
+                            Icons.add_a_photo_outlined,
+                            size: 32,
+                            color: Color(0xff44b626),
+                          ),
+                        ),
+                        SizedBox(height: 14),
+                        Text(
+                          'add_profile_image'.tr,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'tap_to_upload_an_image'.tr,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColor.textSecondary,
+                          ),
+                        ),
+                      ],
+                    )
+                        : Stack(
+                      children: [
+                        Positioned(
+                          right: 8,
+                          top: 8,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black54,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                              onPressed: () =>
+                              controller.selectedImage.value = null,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -169,7 +169,7 @@ class UserFormScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Obx(
-                () => TextField(
+                    () => TextField(
                   controller: controller.usernameController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -266,7 +266,7 @@ class UserFormScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Obx(
-                () => TextField(
+                    () => TextField(
                   controller: controller.passwordController,
                   obscureText: true,
                   textInputAction: TextInputAction.done,
@@ -308,7 +308,7 @@ class UserFormScreen extends StatelessWidget {
               // ENABLED STATUS
               // =========================
               Obx(
-                () => Container(
+                    () => Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -374,13 +374,13 @@ class UserFormScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 56,
                 child: Obx(
-                  () => ElevatedButton(
+                      () => ElevatedButton(
                     onPressed: controller.isCreating.value ||
-                            controller.isUpdating.value
+                        controller.isUpdating.value
                         ? null
                         : controller.editingUser == null
-                            ? controller.createUser
-                            : controller.updateUser,
+                        ? controller.createUser
+                        : controller.updateUser,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.createBtt,
                       disabledBackgroundColor: Color(0xff94A3B8),
@@ -391,50 +391,50 @@ class UserFormScreen extends StatelessWidget {
                       ),
                     ),
                     child: controller.isCreating.value ||
-                            controller.isUpdating.value
+                        controller.isUpdating.value
                         ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Text(
-                                controller.isCreating.value
-                                    ? 'creating'.tr
-                                    : 'updating'.tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                controller.editingUser == null
-                                    ? Icons.person_add_outlined
-                                    : Icons.save_outlined,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                controller.editingUser == null
-                                    ? 'create_user'.tr
-                                    : 'update_user'.tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          controller.isCreating.value
+                              ? 'creating'.tr
+                              : 'updating'.tr,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                        : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          controller.editingUser == null
+                              ? Icons.person_add_outlined
+                              : Icons.save_outlined,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          controller.editingUser == null
+                              ? 'create_user'.tr
+                              : 'update_user'.tr,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -47,181 +47,181 @@ class PostListScreen extends StatelessWidget {
               child: controller.posts.isEmpty
                   ? Center(child: Text('No post found'))
                   : RefreshIndicator(
-                      onRefresh: () async {
-                        await controller.loadFirstPage();
-                      },
+                onRefresh: () async {
+                  await controller.loadFirstPage();
+                },
 
-                      child: ListView.builder(
-                        controller: controller.scrollController,
-                        physics: AlwaysScrollableScrollPhysics(),
+                child: ListView.builder(
+                  controller: controller.scrollController,
+                  physics: AlwaysScrollableScrollPhysics(),
 
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+
+                  itemCount:
+                  controller.posts.length +
+                      (controller.isLoadingMore.value ? 1 : 0),
+
+                  itemBuilder: (context, index) {
+                    // Pagination Loading
+                    if (index == controller.posts.length) {
+                      return Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    final Data post = controller.posts[index];
+
+                    // Post Card
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 12),
+
+                      padding: EdgeInsets.all(16),
+
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+
+                        border: Border.all(
+                          color: Colors.grey.shade200,
+                          width: 1.5,
                         ),
+                      ),
 
-                        itemCount:
-                            controller.posts.length +
-                            (controller.isLoadingMore.value ? 1 : 0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
 
-                        itemBuilder: (context, index) {
-                          // Pagination Loading
-                          if (index == controller.posts.length) {
-                            return Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
+                        children: [
+                          // Image
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
 
-                          final Data post = controller.posts[index];
+                            child: SizedBox(
+                              width: 80,
+                              height: 80,
 
-                          // Post Card
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 12),
+                              child:
+                              post.imageUrl != null &&
+                                  post.imageUrl!.isNotEmpty
+                                  ? Image.network(
+                                post.imageUrl!,
+                                fit: BoxFit.cover,
 
-                            padding: EdgeInsets.all(16),
+                                errorBuilder:
+                                    (context, error, stackTrace) {
+                                  return Container(
+                                    color: Colors.teal.shade50,
 
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
+                                    child: Icon(
+                                      Icons.article_outlined,
+                                      size: 40,
+                                      color: Colors.green,
+                                    ),
+                                  );
+                                },
+                              )
+                                  : Container(
+                                color: Colors.teal.shade50,
 
-                              border: Border.all(
-                                color: Colors.grey.shade200,
-                                width: 1.5,
+                                child: Icon(
+                                  Icons.article_outlined,
+                                  size: 40,
+                                  color: Colors.green,
+                                ),
                               ),
                             ),
+                          ),
 
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          SizedBox(width: 16),
+
+                          // Post Information
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
 
                               children: [
-                                // Image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
+                                // Title
+                                Text(
+                                  post.title ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
 
-                                  child: SizedBox(
-                                    width: 80,
-                                    height: 80,
-
-                                    child:
-                                        post.imageUrl != null &&
-                                            post.imageUrl!.isNotEmpty
-                                        ? Image.network(
-                                            post.imageUrl!,
-                                            fit: BoxFit.cover,
-
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                                  return Container(
-                                                    color: Colors.teal.shade50,
-
-                                                    child: Icon(
-                                                      Icons.article_outlined,
-                                                      size: 40,
-                                                      color: Colors.green,
-                                                    ),
-                                                  );
-                                                },
-                                          )
-                                        : Container(
-                                            color: Colors.teal.shade50,
-
-                                            child: Icon(
-                                              Icons.article_outlined,
-                                              size: 40,
-                                              color: Colors.green,
-                                            ),
-                                          ),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                SizedBox(width: 16),
+                                SizedBox(height: 6),
 
-                                // Post Information
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                // Content
+                                Text(
+                                  post.content ?? '',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
 
-                                    children: [
-                                      // Title
-                                      Text(
-                                        post.title ?? '',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-
-                                      SizedBox(height: 6),
-
-                                      // Content
-                                      Text(
-                                        post.content ?? '',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                      ),
-
-                                      SizedBox(height: 8),
-
-                                      // Author + Date
-                                      Text(
-                                        'Admincode · 22 Aug 2026',
-
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey.shade500,
-                                        ),
-                                      ),
-                                    ],
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.shade600,
                                   ),
                                 ),
 
-                                // More Button
-                                PopupMenuButton<String>(
-                                  icon: Icon(
-                                    Icons.more_vert,
-                                    color: Colors.blueGrey,
+                                SizedBox(height: 8),
+
+                                // Author + Date
+                                Text(
+                                  'Admincode · 22 Aug 2026',
+
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade500,
                                   ),
-
-                                  onSelected: (value) {
-                                    if (value == 'edit') {
-                                      controller.editPost(post);
-                                    }
-
-                                    if (value == 'delete') {
-                                      controller.confirmDeletePost(post);
-                                    }
-                                  },
-
-                                  itemBuilder: (context) {
-                                    return [
-                                      PopupMenuItem(
-                                        value: 'edit',
-                                        child: Text('Edit'),
-                                      ),
-
-                                      PopupMenuItem(
-                                        value: 'delete',
-                                        child: Text('Delete'),
-                                      ),
-                                    ];
-                                  },
                                 ),
                               ],
                             ),
-                          );
-                        },
+                          ),
+
+                          // More Button
+                          PopupMenuButton<String>(
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: Colors.blueGrey,
+                            ),
+
+                            onSelected: (value) {
+                              if (value == 'edit') {
+                                controller.editPost(post);
+                              }
+
+                              if (value == 'delete') {
+                                controller.confirmDeletePost(post);
+                              }
+                            },
+
+                            itemBuilder: (context) {
+                              return [
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text('Edit'),
+                                ),
+
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text('Delete'),
+                                ),
+                              ];
+                            },
+                          ),
+                        ],
                       ),
-                    ),
+                    );
+                  },
+                ),
+              ),
             ),
           ],
         );

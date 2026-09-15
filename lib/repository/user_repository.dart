@@ -125,6 +125,58 @@ class UserRepository {
     }
   }
 
+  Future<(userData?, String?)> updateUser({
+    required int userId,
+    required String username,
+    String? nickName,
+  }) async {
+    try {
+      final response = await _api.put(
+        ApiConstant.userById(userId),
+        body: {
+          'username': username,
+          'nickName': nickName,
+        },
+      );
+
+      // Get data from response
+      final dynamic dataJson = response['data'];
+
+      if (dataJson != null) {
+        return (userData.fromJson(dataJson), null);
+      }
+
+      return (null, 'Unexpected response format from server');
+    } on ApiException catch (e) {
+      print('========== UPDATE USER API ERROR ==========');
+      print('MESSAGE: ${e.message}');
+      print('===========================================');
+
+      return (null, e.message);
+    } on DioException catch (e) {
+      print('========== UPDATE USER DIO ERROR ==========');
+      print('TYPE: ${e.type}');
+      print('MESSAGE: ${e.message}');
+      print('STATUS: ${e.response?.statusCode}');
+      print('RESPONSE: ${e.response?.data}');
+      print('REQUEST: ${e.requestOptions.uri}');
+      print('============================================');
+
+      return (
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.message ??
+          'Update user failed',
+      );
+    } catch (e) {
+      print('========== UPDATE USER ERROR ==========');
+      print(e);
+      print('=======================================');
+
+      return (null, e.toString());
+    }
+  }
+
   Future<(bool, String?)> deleteUser({required int id}) async {
     try {
       await _api.delete(ApiConstant.userById(id));
