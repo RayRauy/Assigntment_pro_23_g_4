@@ -382,22 +382,14 @@ class UserController extends GetxController{
 
     final username = usernameController.text.trim();
     final nickName = nickNameController.text.trim();
+    bool hasError = false;
 
     if (username.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Username is required',
-      );
-      return;
+      usernameError.value = 'Username is required';
+      hasError = true;
     }
 
-    if (nickName.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Nickname is required',
-      );
-      return;
-    }
+    if (hasError) return;
 
     try {
       isUpdating.value = true;
@@ -438,7 +430,7 @@ class UserController extends GetxController{
         );
 
         if (toggleSuccess) {
-          updatedUser?.enabled = enabled.value;
+          updatedUser.enabled = enabled.value;
         } else {
           Get.snackbar(
             'Partial Success',
