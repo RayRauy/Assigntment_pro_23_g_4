@@ -14,6 +14,13 @@ class AuthController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = ''.obs;
 
+  final RxBool isPasswordVisible = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+
   Future<void> login() async {
     if (usernameController.text.trim().isEmpty) {
       errorMessage.value = 'Username is required';

@@ -65,18 +65,40 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 16),
 
                 // Password
-                TextField(
-                  controller: controller.passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                // TextField(
+                //   controller: controller.passwordController,
+                //   obscureText: true,
+                //   decoration: InputDecoration(
+                //     labelText: 'Password',
+                //     prefixIcon: Icon(Icons.lock_outline),
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(12),
+                //     ),
+                //   ),
+                // ),
+
+                Obx(
+                      () => TextField(
+                    controller: controller.passwordController,
+                    obscureText: !controller.isPasswordVisible.value,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          controller.isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: controller.togglePasswordVisibility,
+                      ),
+
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   ),
                 ),
-
                 SizedBox(height: 24),
 
                 // Login Button

@@ -24,6 +24,7 @@ class UserController extends GetxController{
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController nickNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final RxBool isPasswordVisible = false.obs;
 
   // =========================
   // State
@@ -65,6 +66,12 @@ class UserController extends GetxController{
   // =========================
 
   final ScrollController scrollController = ScrollController();
+
+  //===password visible==//
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
 
   @override
   void onInit() {

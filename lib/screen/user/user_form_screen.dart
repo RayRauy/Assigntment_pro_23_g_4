@@ -268,7 +268,7 @@ class UserFormScreen extends StatelessWidget {
               Obx(
                     () => TextField(
                   controller: controller.passwordController,
-                  obscureText: true,
+                      obscureText: !controller.isPasswordVisible.value,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     hintText: 'enter_password'.tr,
@@ -277,6 +277,14 @@ class UserFormScreen extends StatelessWidget {
                     prefixIcon: Icon(
                       Icons.lock_outline,
                       color: Color(0xff64748B),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: controller.togglePasswordVisibility,
                     ),
                     filled: true,
                     fillColor: Colors.white,
