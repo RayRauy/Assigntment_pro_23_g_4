@@ -259,9 +259,17 @@ class PostListScreen extends StatelessWidget {
           controller.startCreate();
         },
 
-        icon: Icon(Icons.add),
+        backgroundColor: AppColor.fabBackground,
 
-        label: Text('new_post'.tr),
+        icon: const Icon(Icons.add, color: AppColor.createBtt),
+
+        label: Text(
+          'new_post'.tr,
+          style: const TextStyle(
+            color: AppColor.createBtt,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

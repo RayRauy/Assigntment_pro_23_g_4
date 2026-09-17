@@ -35,4 +35,6 @@ class AppColor {
 
   static const Color text = Color(0xFF131313);
   static const Color createBtt = Color(0xFF196305);
+
+  static const Color fabBackground = Color(0xFFF1FBE9);
 }
