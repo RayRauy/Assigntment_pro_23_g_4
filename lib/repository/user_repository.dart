@@ -14,7 +14,13 @@ class UserRepository {
   final ApiClient _api;
   final StorageService storage = Get.find<StorageService>();
 
-  Future<(UserDataModel?, String?)> getUserPage({int page = 0, int size = 10, String? username, String? nickName, bool? enabled,}) async {
+  Future<(UserDataModel?, String?)> getUserPage({
+    int page = 0,
+    int size = 10,
+    String? username,
+    String? nickName,
+    bool? enabled,
+  }) async {
     try {
       final response = await _api.get(
         ApiConstant.users,
@@ -40,10 +46,10 @@ class UserRepository {
       print('======================================');
 
       return (
-      null,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed',
+        null,
+        e.response?.data?['message']?.toString() ??
+            e.message ??
+            'Request failed',
       );
     } catch (e) {
       print('GET USERS ERROR: $e');
@@ -52,7 +58,11 @@ class UserRepository {
     }
   }
 
-  Future<(userData?, String?)> createUser({required String username, String? nickName, required String password,}) async {
+  Future<(userData?, String?)> createUser({
+    required String username,
+    String? nickName,
+    required String password,
+  }) async {
     try {
       final response = await _api.post(
         ApiConstant.users,
@@ -86,7 +96,10 @@ class UserRepository {
     }
   }
 
-  Future<(bool, String?)> uploadUserImage({required int userId, required String filePath,}) async {
+  Future<(bool, String?)> uploadUserImage({
+    required int userId,
+    required String filePath,
+  }) async {
     try {
       await _api.upload(ApiConstant.userImage(userId), filePath: filePath);
       return (true, null);
@@ -94,10 +107,10 @@ class UserRepository {
       // return (false, 'Image upload failed: ${response.statusCode}');
     } on DioException catch (e) {
       return (
-      false,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Image upload failed',
+        false,
+        e.response?.data?['message']?.toString() ??
+            e.message ??
+            'Image upload failed',
       );
     } catch (e) {
       print(e);
@@ -105,7 +118,10 @@ class UserRepository {
     }
   }
 
-  Future<(bool, String?)> userEnabled({required int userId, required bool enabled,}) async {
+  Future<(bool, String?)> userEnabled({
+    required int userId,
+    required bool enabled,
+  }) async {
     try {
       await _api.patch(
         ApiConstant.userEnabled(userId),
@@ -114,10 +130,10 @@ class UserRepository {
       return (true, null);
     } on DioException catch (e) {
       return (
-      false,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Image upload failed',
+        false,
+        e.response?.data?['message']?.toString() ??
+            e.message ??
+            'Image upload failed',
       );
     } catch (e) {
       print(e);
@@ -129,10 +145,7 @@ class UserRepository {
     try {
       final response = await _api.put(
         ApiConstant.userById(userId),
-        body: {
-          'username': username,
-          'nickName': nickName,
-        },
+        body: {'username': username, 'nickName': nickName},
       );
 
       // Get data from response
@@ -159,10 +172,10 @@ class UserRepository {
       print('============================================');
 
       return (
-      null,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Update user failed',
+        null,
+        e.response?.data?['message']?.toString() ??
+            e.message ??
+            'Update user failed',
       );
     } catch (e) {
       print('========== UPDATE USER ERROR ==========');
@@ -177,7 +190,6 @@ class UserRepository {
     try {
       await _api.delete(ApiConstant.userById(id));
       return (true, null);
-
     } on DioException catch (e) {
       print('========== DELETE DIO ERROR ==========');
       print('TYPE: ${e.type}');
@@ -188,10 +200,10 @@ class UserRepository {
       print('======================================');
 
       return (
-      false,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed',
+        false,
+        e.response?.data?['message']?.toString() ??
+            e.message ??
+            'Request failed',
       );
     } catch (e) {
       print('========== DELETE ERROR ==========');
