@@ -14,6 +14,21 @@ class UserRepository {
   final ApiClient _api;
   final StorageService storage = Get.find<StorageService>();
 
+  Future<(userData?, String?)> getCurrentUser() async {
+    try {
+      final response = await _api.get(ApiConstant.currentUser);
+      final dynamic dataJson = response['data'];
+      if (dataJson != null) {
+        return (userData.fromJson(dataJson), null);
+      }
+      return (null, 'No user data found');
+    } on ApiException catch (e) {
+      return (null, e.message);
+    } catch (e) {
+      return (null, e.toString());
+    }
+  }
+
   Future<(UserDataModel?, String?)> getUserPage({
     int page = 0,
     int size = 10,

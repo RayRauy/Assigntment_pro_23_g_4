@@ -36,79 +36,86 @@ class SettingScreen extends StatelessWidget {
               // =========================
               // Signed In Card
               // =========================
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xCD39A800),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Row(
-                  children: [
-                    // Avatar
-                    Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.lightGreenAccent,
+              Obx(() {
+                final user = controller.currentUserProfile.value;
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xCD39A800),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Row(
+                    children: [
+                      // Avatar
+                      Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.lightGreenAccent,
+                          image: user?.imageUrl != null && user!.imageUrl!.isNotEmpty
+                              ? DecorationImage(
+                                  image: NetworkImage(user.imageUrl!),
+                                  fit: BoxFit.cover,
+                                )
+                              : null,
+                        ),
+                        child: user?.imageUrl == null || user!.imageUrl!.isEmpty
+                            ? Center(
+                                child: Text(
+                                  (user?.username ?? 'AD').substring(0, 2).toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : null,
                       ),
-                      child: Center(
-                        child: Text(
-                          'AD',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+
+                      const SizedBox(width: 18),
+
+                      // User information
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'signed_in_as'.tr,
+                              style: TextStyle(
+                                color: Color(0xFFF3FFFC),
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              user?.nickName ?? '...',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              user?.username ?? '...',
+                              style: TextStyle(
+                                color: Color(0xFFB8E8E3),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-
-                    const SizedBox(width: 18),
-
-                    // User information
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'signed_in_as'.tr,
-                            style: TextStyle(
-                              color: Color(0xFFF3FFFC),
-                              fontSize: 14,
-                            ),
-                          ),
-
-                          SizedBox(height: 2),
-
-                          Text(
-                            'Admin',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-
-                          SizedBox(height: 2),
-
-                          Text(
-                            'admin@example.com',
-                            style: TextStyle(
-                              color: Color(0xFFB8E8E3),
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }),
 
               const SizedBox(height: 35),
 

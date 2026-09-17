@@ -1,12 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:pro_23/service/storage_service.dart';
 
+import '../model/user/user_data_model.dart';
 import '../repository/auth_repository.dart';
+import '../repository/user_repository.dart';
 
 class AuthController extends GetxController {
+  AuthController(this._userRepo);
+
   final AuthRepository _authRepo = Get.find<AuthRepository>();
+  final UserRepository _userRepo;
   final StorageService _storageService = Get.find<StorageService>();
+
+  final Rxn<userData> currentUserProfile = Rxn<userData>();
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -23,6 +34,17 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchProfile();
+  }
+
+  Future<void> fetchProfile() async {
+    final token = await _storageService.getString('token');
+    if (token == null || token.isEmpty) return;
+
+    final (userData? user, String? error) = await _userRepo.getCurrentUser();
+    if (user != null) {
+      currentUserProfile.value = user;
+    }
   }
 
   Future<void> login() async {
@@ -58,8 +80,7 @@ class AuthController extends GetxController {
     await _storageService.saveString('token', token);
     print('LOGIN TOKEN: $token');
 
-    // TODO:
-    // Save token here
+    await fetchProfile();
 
     Get.offAllNamed('/');
   }

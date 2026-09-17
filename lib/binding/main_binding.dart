@@ -14,18 +14,15 @@ import '../service/storage_service.dart';
 class MainBinding extends Bindings {
   @override
   void dependencies() {
-    // PostBinding().dependencies();
-    // UserBinding().dependencies();
-    // 1. Core Services shared by both layers
-    final storage = Get.find<StorageService>();
-    final apiClient = Get.put(ApiClient(storage));
+    // 1. Get services/repos from InitialBinding
+    final apiClient = Get.find<ApiClient>();
+    final userRepo = Get.find<UserRepository>();
 
     // 2. Instantiate and inject Post layer immediately
     final postRepo = Get.put(PostRepository(apiClient));
     Get.put(PostController(postRepo));
 
     // 3. Instantiate and inject User layer immediately
-    final userRepo = Get.put(UserRepository(apiClient));
     Get.put(UserController(userRepo));
   }
 }
