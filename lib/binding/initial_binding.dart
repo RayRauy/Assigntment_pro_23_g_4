@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../controller/auth_controller.dart';
 import '../repository/auth_repository.dart';
+import '../service/network_service.dart';
 import '../service/storage_service.dart';
 
 class InitialBinding extends Bindings {
@@ -10,5 +11,6 @@ class InitialBinding extends Bindings {
     Get.put<StorageService>(StorageService(), permanent: true);
     Get.put<AuthRepository>(AuthRepository(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.put<NetworkService>(NetworkService(), permanent: true);
   }
 }

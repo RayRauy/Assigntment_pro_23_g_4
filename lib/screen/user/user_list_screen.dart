@@ -269,15 +269,23 @@ class UserListScreen extends StatelessWidget {
         );
       }),
 
-      // New Post
+      // New User
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           controller.startCreate();
         },
 
-        icon: Icon(Icons.add),
+        backgroundColor: AppColor.fabBackground,
 
-        label: Text('new_user'.tr),
+        icon: const Icon(Icons.add, color: AppColor.createBtt),
+
+        label: Text(
+          'new_user'.tr,
+          style: const TextStyle(
+            color: AppColor.createBtt,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
