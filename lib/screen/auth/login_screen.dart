@@ -27,11 +27,7 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                Icon(
-                  Icons.lock_outline,
-                  size: 80,
-                  color: Color(0xFF5FF013),
-                ),
+                Icon(Icons.lock_outline, size: 80, color: Color(0xFF5FF013)),
 
                 SizedBox(height: 20),
 
@@ -64,19 +60,6 @@ class LoginScreen extends StatelessWidget {
 
                 SizedBox(height: 16),
 
-                // Password
-                // TextField(
-                //   controller: controller.passwordController,
-                //   obscureText: true,
-                //   decoration: InputDecoration(
-                //     labelText: 'Password',
-                //     prefixIcon: Icon(Icons.lock_outline),
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(12),
-                //     ),
-                //   ),
-                // ),
-
                 Obx(
                       () => TextField(
                     controller: controller.passwordController,
@@ -99,6 +82,42 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                // Login Error Message
+
+                Obx(() {
+                  if (controller.errorMessage.value.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey.shade50),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red.shade700,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            controller.errorMessage.value,
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
                 SizedBox(height: 24),
 
                 // Login Button
@@ -114,10 +133,7 @@ class LoginScreen extends StatelessWidget {
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
                       ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                      child: Text('Login', style: TextStyle(fontSize: 16)),
                     ),
                   ),
                 ),

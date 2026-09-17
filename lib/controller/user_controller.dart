@@ -223,7 +223,7 @@ class UserController extends GetxController{
   }
 
   Future<void> createUser() async {
-    if (isCreating.value) return;
+    if (isCreating.value) return; //This checks whether a user is already being created
 
     final username = usernameController.text.trim();
     final nickName = nickNameController.text.trim();
@@ -231,7 +231,6 @@ class UserController extends GetxController{
 
     usernameError.value = null;
     passwordError.value = null;
-
     bool hasError = false;
     if (username.isEmpty) {
       usernameError.value = 'Username is required';
@@ -517,7 +516,7 @@ class UserController extends GetxController{
     if (id == null) {
       Get.snackbar(
         'Error',
-        'Post ID not found',
+        'User ID not found',
       );
       return;
     }
@@ -541,7 +540,7 @@ class UserController extends GetxController{
       if (!success) {
         Get.snackbar(
           'Error',
-          'Failed to delete post',
+          'Failed to delete user',
         );
         return;
       }
@@ -553,7 +552,7 @@ class UserController extends GetxController{
 
       Get.snackbar(
         'Success',
-        'Post deleted successfully',
+        'User deleted successfully',
       );
     } finally {
       isDeleting.value = false;
