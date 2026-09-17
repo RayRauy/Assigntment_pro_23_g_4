@@ -17,7 +17,9 @@ import '../model/user/user_data_model.dart';
 class UserController extends GetxController{
   UserController(this._userRepo);
   final UserRepository _userRepo;
+
   final users = <userData>[].obs;
+
   userData? editingUser;
 
   // Form Controller
@@ -50,15 +52,12 @@ class UserController extends GetxController{
   // =========================
 
   final int size = 10;
-
   Timer? _searchTimer;
-
   int _page = 0;
   int _totalPages = 1;
   int _total = 0;
 
   int get total => _total;
-
   bool get hasMore => _page + 1 < _totalPages;
 
   // =========================
@@ -111,7 +110,7 @@ class UserController extends GetxController{
 
     if (debounce) {
       _searchTimer = Timer(
-        const Duration(milliseconds: 400),
+        Duration(milliseconds: 400),
             () {
           loadFirstPage(
             username: searchTerm.value,
@@ -420,7 +419,7 @@ class UserController extends GetxController{
         if (!success) {
           Get.snackbar(
             'Partial Success',
-            'User created, but image upload failed: ${uploadError ?? "Unknown error"}',
+            'User Updated, but image upload failed: ${uploadError ?? "Unknown error"}',
             duration: const Duration(seconds: 5),
           );
         }
@@ -440,7 +439,7 @@ class UserController extends GetxController{
         } else {
           Get.snackbar(
             'Partial Success',
-            'User created, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
+            'User Updated, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
             duration: const Duration(seconds: 5),
           );
         }

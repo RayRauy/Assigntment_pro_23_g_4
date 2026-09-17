@@ -399,8 +399,8 @@ class PostFormScreen extends StatelessWidget {
 
                         Text(
                           controller.editingPost == null
-                              ? 'Create Post'
-                              : 'Update Post',
+                              ? 'create_post'.tr
+                              : 'update_post'.tr,
                           style:  TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

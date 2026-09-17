@@ -230,7 +230,7 @@ class PostListScreen extends StatelessWidget {
       // New Post
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.toNamed('/posts/form');
+          controller.startCreate();
         },
 
         icon: Icon(Icons.add),
