@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pro_23/constant/api_constant.dart';
 
 class AuthRepository {
   AuthRepository();
@@ -11,7 +12,7 @@ class AuthRepository {
   }) async {
     try {
       final Response<dynamic> response = await dio.post(
-        'https://flutter-api.janrent.com/api/auth/login',
+        ApiConstant.login,
         data: <String, dynamic>{'username': username, 'password': password},
       );
 
@@ -41,11 +42,11 @@ class AuthRepository {
       print('MESSAGE: ${e.message}');
 
       return (
-        null,
-        e.response?.data?['message']?.toString() ??
-            e.response?.data?['detail']?.toString() ??
-            e.message ??
-            'Login failed',
+      null,
+      e.response?.data?['message']?.toString() ??
+          e.response?.data?['detail']?.toString() ??
+          e.message ??
+          'Login failed',
       );
     } catch (e) {
       print('ERROR: $e');

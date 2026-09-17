@@ -419,7 +419,7 @@ class UserController extends GetxController{
         if (!success) {
           Get.snackbar(
             'Partial Success',
-            'User created, but image upload failed: ${uploadError ?? "Unknown error"}',
+            'User Updated, but image upload failed: ${uploadError ?? "Unknown error"}',
             duration: const Duration(seconds: 5),
           );
         }
@@ -439,7 +439,7 @@ class UserController extends GetxController{
         } else {
           Get.snackbar(
             'Partial Success',
-            'User created, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
+            'User Updated, but failed to set enabled status: ${toggleError ?? "Unknown error"}',
             duration: const Duration(seconds: 5),
           );
         }

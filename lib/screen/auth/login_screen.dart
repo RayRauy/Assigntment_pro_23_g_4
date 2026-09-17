@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/auth_controller.dart';
+import '../../core/value/app_color.dart';
 import '../../repository/auth_repository.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -51,9 +52,19 @@ class LoginScreen extends StatelessWidget {
                   // keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Username',
+                    labelStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
                     prefixIcon: Icon(Icons.person_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: AppColor.primary,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
@@ -66,7 +77,10 @@ class LoginScreen extends StatelessWidget {
                     obscureText: !controller.isPasswordVisible.value,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      prefixIcon: Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
                           controller.isPasswordVisible.value
@@ -78,6 +92,13 @@ class LoginScreen extends StatelessWidget {
 
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: AppColor.primary,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),

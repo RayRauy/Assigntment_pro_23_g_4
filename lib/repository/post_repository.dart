@@ -1,22 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
-import 'package:pro_23/model/post/post_data_model.dart';
+import 'package:pro_23/constant/api_constant.dart';
+import 'package:pro_23/core/util/api_client.dart';
 
-import '../constant/api_constant.dart';
-import '../core/util/api_client.dart';
+import '../core/util/api_exception.dart';
+import '../model/post/post_data_model.dart';
 import '../service/storage_service.dart';
 
 class PostRepository {
   PostRepository(this._api);
-
   final Dio dio = Dio();
-  final ApiClient _api;
-
   final StorageService storage = Get.find<StorageService>();
 
-  // =========================
-  // Get Posts
-  // =========================
+  final ApiClient _api;
 
   Future<(PostDataModel?, String?)> getPageTest({int page = 0, int size = 10, String? title, bool? published,}) async {
     try {
@@ -32,150 +28,67 @@ class PostRepository {
         },
       );
 
+      print('Repository');
+      print(response);
+
       return (PostDataModel.fromJson(response), null);
-
-    } on DioException catch (e) {
-      print('========== GET POSTS ERROR ==========');
-      print('TYPE: ${e.type}');
-      print('MESSAGE: ${e.message}');
-      print('STATUS: ${e.response?.statusCode}');
-      print('RESPONSE: ${e.response?.data}');
-      print('REQUEST: ${e.requestOptions.uri}');
-      print('======================================');
-
-      return (
-      null,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed',
-      );
     } catch (e) {
-      print('GET POSTS ERROR: $e');
-
       return (null, e.toString());
     }
   }
 
-  // =========================
-  // Create Post
-  // =========================
-
-  Future<(Data?, String?)> createPost({required String title, required String content, required bool published,}) async {
+  Future<(Data?, String?)> createPost({required String title, required String content, required bool published}) async {
     try {
-      // =========================
-      // Get Token
-      // =========================
-
-      final String? token = await storage.getString('token');
-
-      print('========== CREATE POST ==========');
-      print('TOKEN EXISTS: ${token != null}');
-      print('TOKEN: ${token != null ? token : 'NULL'}');
-
-      // =========================
-      // Check Token
-      // =========================
-
-      if (token == null || token.isEmpty) {
-        return (null, 'Token not found');
-      }
-
-      // =========================
-      // POST Request
-      // =========================
-
-      final Response<dynamic> response = await dio.post(
-        'https://flutter-api.janrent.com/api/posts',
-
-        // Request Body
-        data: <String, dynamic>{
+      final response = await _api.post(
+        ApiConstant.posts,
+        body: {
           'title': title,
           'content': content,
           'published': published,
         },
-
-        // Request Headers
-        options: Options(
-          headers: <String, dynamic>{
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
       );
+      print('========== CREATE USER RESPONSE ==========');
+      print('RESPONSE: $response');
+      print('==========================================');
+      // 2. ApiClient only returns here if status code is 2xx.
+      // Extract the 'data' map from the response JSON body.
+      final dynamic dataJson = response['data'];
 
-      // =========================
-      // Debug Request
-      // =========================
-
-      print('========== REQUEST ==========');
-      print('URL: ${response.requestOptions.uri}');
-      print('METHOD: ${response.requestOptions.method}');
-      print('HEADERS: ${response.requestOptions.headers}');
-      print('BODY: ${response.requestOptions.data}');
-      print('==============================');
-
-      // =========================
-      // Debug Response
-      // =========================
-
-      print('========== RESPONSE ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('==============================');
-
-      // =========================
-      // Check Status
-
-      //fix Created
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final Map<String, dynamic> json =
-        Map<String, dynamic>.from(response.data as Map);
-
-        final Map<String, dynamic> postJson =
-        Map<String, dynamic>.from(json['data'] as Map);
-
-        final Data data = Data.fromJson(postJson);
-
-        print('CREATED POST ID: ${data.id}');
-        print('CREATED POST TITLE: ${data.title}');
-        print('CREATED POST CONTENT: ${data.content}');
-
-        return (data, null);
+      if (dataJson != null) {
+        // 3. Return the parsed userData model
+        return (Data.fromJson(dataJson), null);
       }
 
-      return (null, 'Create post failed: ${response.statusCode}');
+      return (null, 'Unexpected response format from server');
+    } on ApiException catch (e) {
+      // Catch the custom exception generated by ApiClient
+      print('Create user API error: ${e.message}');
+      return (null, e.message);
+    } catch (e) {
+      // Catch any other unexpected mapping or local errors
+      print('Create user unexpected error: $e');
+      return (null, e.toString());
     }
-    // =========================
-    // Dio Error
-    // =========================
-    on DioException catch (e) {
-      print('========== DIO ERROR ==========');
-      print('TYPE: ${e.type}');
-      print('MESSAGE: ${e.message}');
-      print('STATUS: ${e.response?.statusCode}');
-      print('RESPONSE: ${e.response?.data}');
-      print('REQUEST: ${e.requestOptions.uri}');
-      print('METHOD: ${e.requestOptions.method}');
-      print('HEADERS: ${e.requestOptions.headers}');
-      print('BODY: ${e.requestOptions.data}');
-      print('================================');
+  }
 
+  Future<(bool, String?)> uploadPostImage({required int postId, required String filePath}) async {
+    try {
+
+      await _api.upload(
+          ApiConstant.postImage(postId),
+          filePath: filePath
+      );
+      return (true, null);
+    } on DioException catch (e) {
       return (
-      null,
+      false,
       e.response?.data?['message']?.toString() ??
           e.message ??
-          'Request failed',
+          'Image upload failed',
       );
-    }
-    // =========================
-    // Other Error
-    // =========================
-    catch (e) {
-      print('========== ERROR ==========');
+    } catch (e) {
       print(e);
-      print('============================');
-
-      return (null, e.toString());
+      return (false, e.toString());
     }
   }
 
@@ -183,92 +96,35 @@ class PostRepository {
 // Update Post
 // =========================
 
-  Future<(Data?, String?)> updatePost({
-    required int id,
-    required String title,
-    required String content,
-    required bool published,
-  }) async {
+  Future<(Data?, String?)> updatePost({required int id, required String title, required String content, required bool published,}) async {
     try {
-      final String? token = await storage.getString('token');
+      final responses = await _api.put(
+          ApiConstant.postById(id),
+          body: {
+            'title': title,
+            'content': content,
+            'published': published
+          }
+      );
 
-      if (token == null || token.isEmpty) {
-        return (null, 'Token not found');
+      final data = responses['data'];
+
+      if (data == null){
+        return (null, 'No post data returned');
       }
 
-      print('========== UPDATE POST ==========');
-      print('ID: $id');
-      print('TITLE: $title');
-      print('CONTENT: $content');
-      print('PUBLISHED: $published');
-
-      final Response<dynamic> response = await dio.put(
-        'https://flutter-api.janrent.com/api/posts/$id',
-
-        data: <String, dynamic>{
-          'title': title,
-          'content': content,
-          'published': published,
-        },
-
-        options: Options(
-          headers: <String, dynamic>{
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
+      final post = Data.fromJson(
+        Map<String, dynamic>.from(data),
       );
 
-      print('========== UPDATE RESPONSE ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('=====================================');
-
-      if (response.statusCode == 200 ||
-          response.statusCode == 201) {
-
-        final Map<String, dynamic> json =
-        Map<String, dynamic>.from(
-          response.data as Map,
-        );
-
-        final Map<String, dynamic> postJson =
-        Map<String, dynamic>.from(
-          json['data'] as Map,
-        );
-
-        final Data data = Data.fromJson(postJson);
-
-        print('UPDATED POST ID: ${data.id}');
-        print('UPDATED POST TITLE: ${data.title}');
-
-        return (data, null);
-      }
-
-      return (
-      null,
-      'Update post failed: ${response.statusCode}',
-      );
-    } on DioException catch (e) {
-      print('========== UPDATE DIO ERROR ==========');
-      print('TYPE: ${e.type}');
-      print('MESSAGE: ${e.message}');
-      print('STATUS: ${e.response?.statusCode}');
-      print('RESPONSE: ${e.response?.data}');
-      print('REQUEST: ${e.requestOptions.uri}');
-      print('======================================');
-
-      return (
-      null,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed',
-      );
+      return (post, null);
+    } on ApiException catch (e) {
+      // Catch the custom exception generated by ApiClient
+      print('Update user API error: ${e.message}');
+      return (null, e.message);
     } catch (e) {
-      print('========== UPDATE ERROR ==========');
-      print(e);
-      print('==================================');
-
+      // Catch any other unexpected mapping or local errors
+      print('Update user unexpected error: $e');
       return (null, e.toString());
     }
   }
@@ -279,132 +135,15 @@ class PostRepository {
 
   Future<(bool, String?)> deletePost({required int id}) async {
     try {
-      final String? token = await storage.getString('token');
-
-      if (token == null || token.isEmpty) {
-        return (false, 'Token not found');
-      }
-
-      print('========== DELETE POST ==========');
-      print('ID: $id');
-
-      final Response<dynamic> response = await dio.delete(
-        'https://flutter-api.janrent.com/api/posts/$id',
-        options: Options(
-          headers: <String, dynamic>{
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      print('========== DELETE RESPONSE ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('======================================');
-
-      if (response.statusCode == 200 ||
-          response.statusCode == 204) {
-        return (true, null);
-      }
-
-      return (
-      false,
-      'Delete post failed: ${response.statusCode}',
-      );
-    } on DioException catch (e) {
-      print('========== DELETE DIO ERROR ==========');
-      print('TYPE: ${e.type}');
-      print('MESSAGE: ${e.message}');
-      print('STATUS: ${e.response?.statusCode}');
-      print('RESPONSE: ${e.response?.data}');
-      print('REQUEST: ${e.requestOptions.uri}');
-      print('======================================');
-
-      return (
-      false,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Request failed',
-      );
+      await _api.delete(ApiConstant.postById(id));
+      return (true, null);
+    } on ApiException catch (e) {
+      // Catch the custom exception generated by ApiClient
+      print('Create user API error: ${e.message}');
+      return (false, e.message);
     } catch (e) {
-      print('========== DELETE ERROR ==========');
-      print(e);
-      print('==================================');
-
-      return (false, e.toString());
-    }
-  }
-
-  // =========================
-// Upload Post Image
-// =========================
-
-  Future<(bool, String?)> uploadPostImage({required int postId, required String filePath}) async {
-    try {
-      final String? token = await storage.getString('token');
-
-      if (token == null || token.isEmpty) {
-        return (false, 'Token not found');
-      }
-
-      print('========== UPLOAD POST IMAGE ==========');
-      print('=======================================');
-
-      final String fileName = filePath.split('/').last;
-
-      final FormData formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(
-          filePath,
-          filename: fileName,
-        ),
-      });
-
-
-      final Response<dynamic> response = await dio.post(
-        'https://flutter-api.janrent.com/api/posts/$postId/image',
-        data: formData,
-        options: Options(
-          headers: <String, dynamic>{
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-
-      print('========== IMAGE RESPONSE ==========');
-      print('STATUS: ${response.statusCode}');
-      print('DATA: ${response.data}');
-      print('====================================');
-
-      if (response.statusCode == 200 ||
-          response.statusCode == 201) {
-        return (true, null);
-      }
-
-      return (
-      false,
-      'Image upload failed: ${response.statusCode}',
-      );
-    } on DioException catch (e) {
-      print('========== IMAGE UPLOAD ERROR ==========');
-      print('TYPE: ${e.type}');
-      print('MESSAGE: ${e.message}');
-      print('STATUS: ${e.response?.statusCode}');
-      print('RESPONSE: ${e.response?.data}');
-      print('REQUEST: ${e.requestOptions.uri}');
-      print('=========================================');
-
-      return (
-      false,
-      e.response?.data?['message']?.toString() ??
-          e.message ??
-          'Image upload failed',
-      );
-    } catch (e) {
-      print('========== IMAGE ERROR ==========');
-      print(e);
-      print('=================================');
-
+      // Catch any other unexpected mapping or local errors
+      print('Create user unexpected error: $e');
       return (false, e.toString());
     }
   }
