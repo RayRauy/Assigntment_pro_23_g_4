@@ -20,6 +20,10 @@ class AuthController extends GetxController {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   Future<void> login() async {
     if (usernameController.text.trim().isEmpty) {
@@ -57,14 +61,24 @@ class AuthController extends GetxController {
     // TODO:
     // Save token here
 
-    Get.offAllNamed('/post-create');
+    Get.offAllNamed('/');
   }
 
-  @override
-  void onClose() {
-    usernameController.dispose();
-    passwordController.dispose();
+  Future<void> logout() async {
+    await _storageService.remove('token');
 
-    super.onClose();
+    usernameController.clear();
+    passwordController.clear();
+    errorMessage.value = '';
+
+    Get.offAllNamed('/login');
+  }
+
+  Future<void> checkLoginStatus() async {
+    final token = await _storageService.getString('token');
+
+    if (token != null && token.isNotEmpty) {
+      Get.offAllNamed('/');
+    }
   }
 }

@@ -8,10 +8,6 @@ import '../../repository/auth_repository.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final AuthRepository authRepository = AuthRepository();
-
   @override
   Widget build(BuildContext context) {
     final AuthController controller = Get.find<AuthController>();
@@ -28,34 +24,36 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                Icon(Icons.lock_outline, size: 80, color: Color(0xFF5FF013)),
+                Icon(Icons.lock_outline, size: 60, color: Color(0xFF5FF013)),
 
-                SizedBox(height: 20),
+                SizedBox(height: 16),
 
                 Text(
                   'Welcome Back',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
 
-                SizedBox(height: 8),
+                SizedBox(height: 6),
 
                 Text(
                   'Login to your account',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey, fontSize: 14),
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: 30),
 
                 // Email / Username
                 TextField(
                   controller: controller.usernameController,
                   // keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 15),
                   decoration: InputDecoration(
                     labelText: 'Username',
                     labelStyle: TextStyle(
                       color: Colors.grey,
+                      fontSize: 14,
                     ),
-                    prefixIcon: Icon(Icons.person_outlined),
+                    prefixIcon: Icon(Icons.person_outlined, size: 22),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -69,23 +67,26 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 12),
 
                 Obx(
                       () => TextField(
                     controller: controller.passwordController,
                     obscureText: !controller.isPasswordVisible.value,
+                    style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
                       labelText: 'Password',
                       labelStyle: TextStyle(
                         color: Colors.grey,
+                        fontSize: 14,
                       ),
-                      prefixIcon: Icon(Icons.lock_outline),
+                      prefixIcon: Icon(Icons.lock_outline, size: 22),
                       suffixIcon: IconButton(
                         icon: Icon(
                           controller.isPasswordVisible.value
                               ? Icons.visibility
                               : Icons.visibility_off,
+                          size: 20,
                         ),
                         onPressed: controller.togglePasswordVisibility,
                       ),
@@ -144,7 +145,7 @@ class LoginScreen extends StatelessWidget {
                 // Login Button
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
+                  height: 46,
                   child: Obx(
                     () => ElevatedButton(
                       onPressed: controller.isLoading.value
@@ -153,8 +154,11 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      child: Text('Login', style: TextStyle(fontSize: 16)),
+                      child: Text('Login', style: TextStyle(fontSize: 15)),
                     ),
                   ),
                 ),

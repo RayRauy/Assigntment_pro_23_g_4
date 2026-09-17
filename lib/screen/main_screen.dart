@@ -22,8 +22,10 @@ class _MainScreenState extends State<MainScreen> {
         children: [HomeScreen(), PostListScreen(), UserListScreen(), SettingScreen()],
       ),
       bottomNavigationBar: NavigationBar(
+        height: 65,
         labelTextStyle: WidgetStatePropertyAll(TextStyle(
-            fontSize: 17
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
         )),
         selectedIndex: currentIndex,
         indicatorColor:Color(0xFF5FF013),
@@ -34,23 +36,23 @@ class _MainScreenState extends State<MainScreen> {
         },
         destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: Colors.white,),
+            icon: Icon(Icons.home_outlined, size: 22),
+            selectedIcon: Icon(Icons.home, color: Colors.white, size: 22),
             label: 'home'.tr,
           ),
           NavigationDestination(
-            icon: Icon(Icons.article_outlined),
-            selectedIcon: Icon(Icons.article, color: Colors.white,),
+            icon: Icon(Icons.article_outlined, size: 22),
+            selectedIcon: Icon(Icons.article, color: Colors.white, size: 22),
             label: 'post'.tr,
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_2_outlined),
-            selectedIcon: Icon(Icons.person, color: Colors.white,),
+            icon: Icon(Icons.person_2_outlined, size: 22),
+            selectedIcon: Icon(Icons.person, color: Colors.white, size: 22),
             label: 'users'.tr,
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings, color: Colors.white,),
+            icon: Icon(Icons.settings_outlined, size: 22),
+            selectedIcon: Icon(Icons.settings, color: Colors.white, size: 22),
             label: 'setting'.tr ,
           ),
         ],
