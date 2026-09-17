@@ -14,5 +14,6 @@ class AppRoute {
   static const String userList = '/users-list';
   static const String userForm = '/users/form';
   static const String userEdit = '/users-edit';
+  static const String setting = '/setting';
 
 }

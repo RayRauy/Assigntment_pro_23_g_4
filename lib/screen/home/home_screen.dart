@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pro_23/service/storage_service.dart';
 
 import '../../core/value/app_color.dart';
 import '../../model/post/post_model.dart';
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final storageService = Get.find<StorageService>();
     final List<SliderModel> banners = <SliderModel>[
       SliderModel(
         title: 'Welcome to GetX Basic',
@@ -114,11 +116,13 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     title: Text('language'.tr),
-                    onTap: () {
+                    onTap: () async {
                       if(Get.locale?.languageCode=='en'){
-                        Get.updateLocale(Locale('km', 'KH'));
+                        Get.updateLocale(const Locale('km', 'KH'));
+                        await storageService.saveString('language', 'km_KH');
                       }else{
-                        Get.updateLocale(Locale('en', 'US'));
+                        Get.updateLocale(const Locale('en', 'US'));
+                        await storageService.saveString('language', 'en_US');
                       }
                     },
                   ),
@@ -214,7 +218,7 @@ class HomeScreen extends StatelessWidget {
                               banner.title,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 17,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLines: 1,
@@ -227,7 +231,7 @@ class HomeScreen extends StatelessWidget {
                                 banner.subtitle!,
                                 style: TextStyle(
                                   color: Colors.white70,
-                                  fontSize: 12,
+                                  fontSize: 11,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -241,7 +245,7 @@ class HomeScreen extends StatelessWidget {
               }).toList(),
 
               options: CarouselOptions(
-                height: 190,
+                height: 160,
                 viewportFraction: 0.88,
                 autoPlay: true,
                 autoPlayInterval: Duration(seconds: 4),
@@ -249,7 +253,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 24),
+            SizedBox(height: 18),
 
             // =========================
             // Latest Posts Title
@@ -258,11 +262,11 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'latest_posts'.tr,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ),
 
-            SizedBox(height: 8),
+            SizedBox(height: 6),
 
             // =========================
             // Post List
@@ -273,7 +277,7 @@ class HomeScreen extends StatelessWidget {
               return Card(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(6),
                   child: Row(
                     children: <Widget>[
                       // =========================
@@ -282,22 +286,22 @@ class HomeScreen extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: SizedBox(
-                          width: 56,
-                          height: 56,
+                          width: 50,
+                          height: 50,
                           child: Image.network(
                             url,
                             fit: BoxFit.cover,
                             errorBuilder: (_, _, _) {
                               return ColoredBox(
                                 color: Colors.greenAccent,
-                                child: Icon(Icons.article_outlined),
+                                child: Icon(Icons.article_outlined, size: 20),
                               );
                             },
                           ),
                         ),
                       ),
 
-                      SizedBox(width: 16),
+                      SizedBox(width: 12),
 
                       // =========================
                       // Post Information
@@ -309,19 +313,19 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               post.title,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
 
-                            SizedBox(height: 4),
+                            SizedBox(height: 2),
 
                             Text(
                               post.author?.displayName ?? 'Unknown',
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 12,
                                 color: Colors.grey,
                               ),
                               maxLines: 1,

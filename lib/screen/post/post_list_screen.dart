@@ -42,6 +42,32 @@ class PostListScreen extends StatelessWidget {
               ),
             ),
 
+            // Summary Counter
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total: ${controller.total}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                  Text(
+                    'Showing ${controller.posts.length} of ${controller.total}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
             // Posts
             Expanded(
               child: controller.posts.isEmpty
@@ -77,13 +103,13 @@ class PostListScreen extends StatelessWidget {
 
                     // Post Card
                     return Container(
-                      margin: EdgeInsets.only(bottom: 12),
+                      margin: const EdgeInsets.only(bottom: 10),
 
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(12),
 
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(15),
 
                         border: Border.all(
                           color: Colors.grey.shade200,
@@ -97,11 +123,11 @@ class PostListScreen extends StatelessWidget {
                         children: [
                           // Image
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(10),
 
                             child: SizedBox(
-                              width: 80,
-                              height: 80,
+                              width: 60,
+                              height: 60,
 
                               child:
                               post.imageUrl != null &&
@@ -117,7 +143,7 @@ class PostListScreen extends StatelessWidget {
 
                                     child: Icon(
                                       Icons.article_outlined,
-                                      size: 40,
+                                      size: 30,
                                       color: Colors.green,
                                     ),
                                   );
@@ -128,14 +154,14 @@ class PostListScreen extends StatelessWidget {
 
                                 child: Icon(
                                   Icons.article_outlined,
-                                  size: 40,
+                                  size: 30,
                                   color: Colors.green,
                                 ),
                               ),
                             ),
                           ),
 
-                          SizedBox(width: 16),
+                          SizedBox(width: 12),
 
                           // Post Information
                           Expanded(
@@ -151,33 +177,33 @@ class PostListScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
 
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                SizedBox(height: 6),
+                                SizedBox(height: 2),
 
                                 // Content
                                 Text(
                                   post.content ?? '',
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
 
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.grey.shade600,
                                   ),
                                 ),
 
-                                SizedBox(height: 8),
+                                SizedBox(height: 4),
 
                                 // Author + Date
                                 Text(
                                   'Admincode · 22 Aug 2026',
 
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: Colors.grey.shade500,
                                   ),
                                 ),
