@@ -125,11 +125,7 @@ class UserRepository {
     }
   }
 
-  Future<(userData?, String?)> updateUser({
-    required int userId,
-    required String username,
-    String? nickName,
-  }) async {
+  Future<(userData?, String?)> updateUser({required int userId, required String username, String? nickName,}) async {
     try {
       final response = await _api.put(
         ApiConstant.userById(userId),

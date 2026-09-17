@@ -150,23 +150,14 @@ class PostRepository {
     // =========================
     on DioException catch (e) {
       print('========== DIO ERROR ==========');
-
       print('TYPE: ${e.type}');
-
       print('MESSAGE: ${e.message}');
-
       print('STATUS: ${e.response?.statusCode}');
-
       print('RESPONSE: ${e.response?.data}');
-
       print('REQUEST: ${e.requestOptions.uri}');
-
       print('METHOD: ${e.requestOptions.method}');
-
       print('HEADERS: ${e.requestOptions.headers}');
-
       print('BODY: ${e.requestOptions.data}');
-
       print('================================');
 
       return (
@@ -181,9 +172,7 @@ class PostRepository {
     // =========================
     catch (e) {
       print('========== ERROR ==========');
-
       print(e);
-
       print('============================');
 
       return (null, e.toString());
@@ -288,9 +277,7 @@ class PostRepository {
 // Delete Post
 // =========================
 
-  Future<(bool, String?)> deletePost({
-    required int id,
-  }) async {
+  Future<(bool, String?)> deletePost({required int id}) async {
     try {
       final String? token = await storage.getString('token');
 
@@ -353,10 +340,7 @@ class PostRepository {
 // Upload Post Image
 // =========================
 
-  Future<(bool, String?)> uploadPostImage({
-    required int postId,
-    required String filePath,
-  }) async {
+  Future<(bool, String?)> uploadPostImage({required int postId, required String filePath}) async {
     try {
       final String? token = await storage.getString('token');
 
